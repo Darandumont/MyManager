@@ -1,6 +1,10 @@
 // Ionic Variables and Theming. For more info, please see:
 // http://ionicframework.com/docs/theming/
 
+ion-content.background{
+  --background: url(../assets/images/fondo_login.jpg) 0 0/100% 100% no-repeat;
+}
+
 /** Ionic CSS Variables **/
 :root {
   /** primary **/
@@ -233,8 +237,4 @@
 
     --ion-card-background: #1e1e1e;
   }
-}
-
-ion-content.background{
-  --background: url(../assets/images/prueba.jpg) 0 0/100% 100% no-repeat;
 }
