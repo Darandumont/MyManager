@@ -1,4 +1,4 @@
-import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ComponentesIonicService } from 'src/app/services/componentes-ionic.service'
 
@@ -9,8 +9,6 @@ import { ComponentesIonicService } from 'src/app/services/componentes-ionic.serv
 })
 export class HomePage {
 
-  @ViewChild("input_usuario") inputUsuario: ElementRef;
-
   public usuario: string = "";
   public clave: string = "";
 
@@ -19,7 +17,6 @@ export class HomePage {
     public componenteIonicService: ComponentesIonicService,
     //Objeto Router que permite la navegación entre páginas.
     public router:Router,
-    private renderer: Renderer2
   ) { }
 
   ngOnInit() {
@@ -40,31 +37,23 @@ export class HomePage {
   //Método para validar los datos del usuario
   validarDatos(): boolean{
 
+    this.usuario = ((document.getElementById("input_usuario") as HTMLInputElement).value);
+    this.clave = ((document.getElementById("input_clave") as HTMLInputElement).value);
+
     console.log(this.usuario, this.clave);
     let mensaje = "Error al validar los datos";
     let valido = false;
-
+    
     if(this.usuario === "dani" && this.clave === "1234"){
       mensaje = "Validado con éxito";
       valido = true;
 
-      console.log("estamos aqui: ", this.renderer.selectRootElement(this.inputUsuario.nativeElement).value);
-      this.renderer.selectRootElement(this.inputUsuario.nativeElement).value;
+      ((document.getElementById("input_usuario") as HTMLInputElement).value) = "";
+      ((document.getElementById("input_clave") as HTMLInputElement).value) = "";
     }
 
-    this.mostrarToast(mensaje);
-    this.usuario = "";
-    this.clave = "";
+    this.mostrarToast(mensaje);    
     return valido;
-  }
-
-  //Método que se lanza cada vez que se modifica alguno de los inputs.
-  ionChangeInput(event){
-    if(event.target.id === "input_usuario"){
-      this.usuario = event.target.value;
-    }else{
-      this.clave = event.target.value;
-    }
   }
 
   mostrarToast(mensaje: string){
