@@ -234,3 +234,7 @@
     --ion-card-background: #1e1e1e;
   }
 }
+
+ion-content.background{
+  --background: url(../assets/images/prueba.jpg) 0 0/100% 100% no-repeat;
+}

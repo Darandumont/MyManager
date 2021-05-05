@@ -61,9 +61,10 @@ export class ComponentesIonicService {
   }
 
   //Método que devuelve un Toast
-  async presentToast(mensaje: string) {
+  async presentToast(mensaje: string, valido: boolean = true) {
     const toast = await this.toastController.create({
       message: mensaje,
+      color: valido? "success": "danger",
       duration: 2000
     });
     toast.present();
