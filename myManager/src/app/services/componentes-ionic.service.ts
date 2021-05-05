@@ -3,7 +3,7 @@ Este servicio sirve para tener centralizadas todas las llamadas
 a los distintos componentes de Ionic desde cualquier página de la app.
 */
 import { Injectable } from '@angular/core';
-import { ActionSheetController } from '@ionic/angular';
+import { ActionSheetController, ToastController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,8 @@ import { ActionSheetController } from '@ionic/angular';
 export class ComponentesIonicService {
 
   constructor(
-    public actionSheetController: ActionSheetController
+    public actionSheetController: ActionSheetController,
+    public toastController: ToastController
   ) { }
 
   //Método que devuelve un ActionSheet.
@@ -57,6 +58,15 @@ export class ComponentesIonicService {
 
     const { role } = await actionSheet.onDidDismiss();
     console.log('onDidDismiss resolved with role', role);
+  }
+
+  //Método que devuelve un Toast
+  async presentToast(mensaje: string) {
+    const toast = await this.toastController.create({
+      message: mensaje,
+      duration: 2000
+    });
+    toast.present();
   }
   
 }
