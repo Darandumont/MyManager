@@ -26,8 +26,8 @@ export class FirestoreService { //HECHO PASO 1: https://medium.com/angular-chile
   }
 
   //Obtiene una cita
-  public getCita(_documentID: string) {
-    return this.firestore.collection(FirestoreService.TABLA_CITAS).doc(_documentID).snapshotChanges();
+  public getCita(_idCita: number) {
+    return this.firestore.collection(FirestoreService.TABLA_CITAS).doc(((_idCita as any) as string)).snapshotChanges();
   }
 
   //Obtiene todas las citas
@@ -36,8 +36,8 @@ export class FirestoreService { //HECHO PASO 1: https://medium.com/angular-chile
   }
 
   //Actualiza una cita
-  public updateCita(documentId: string, data: any) {
-    return this.firestore.collection(FirestoreService.TABLA_CITAS).doc(documentId).set(data);
+  public updateCita(_idCita: number, _cita: Cita) {
+    return this.firestore.collection(FirestoreService.TABLA_CITAS).doc(((_idCita as any) as string)).set(_cita);
   }
 
   //***********************************************************************************************************************
@@ -49,8 +49,8 @@ export class FirestoreService { //HECHO PASO 1: https://medium.com/angular-chile
   }  
 
   //Obtiene un usuario
-  public getUsuario(_documentID: string) {
-    return this.firestore.collection(FirestoreService.TABLA_USUARIOS).doc(_documentID).snapshotChanges();
+  public getUsuario(_nombreUsuario: string) {
+    return this.firestore.collection(FirestoreService.TABLA_USUARIOS).doc(_nombreUsuario).snapshotChanges();
   }
 
   //Obtiene todos los usuarios
@@ -59,7 +59,7 @@ export class FirestoreService { //HECHO PASO 1: https://medium.com/angular-chile
   }
 
   //Actualiza un usuario
-  public updateUsuario(documentId: string, data: any) {
-    return this.firestore.collection(FirestoreService.TABLA_USUARIOS).doc(documentId).set(data);
+  public updateUsuario(_nombreUsuario: string, usuario: Usuario) {
+    return this.firestore.collection(FirestoreService.TABLA_USUARIOS).doc(_nombreUsuario).set(usuario);
   }
 }
