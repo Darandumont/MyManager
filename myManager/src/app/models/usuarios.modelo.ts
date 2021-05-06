@@ -3,11 +3,11 @@ import { Cita } from './citas.modelo';
 export class Usuario{
 
     //Atributos;
-    private nombreUsuario: string;
+    private nombreUsuario: string; //PK en la base de datos.
     private claveUsuario: string;
-    private listaCitas: [Cita];
+    private listaCitas: Cita[];
 
-    constructor(_nombreUsuario: string, _claveUsuario:string, _listaCitas: [Cita]){
+    constructor(_nombreUsuario: string, _claveUsuario:string, _listaCitas: Cita[]){
         this.nombreUsuario = _nombreUsuario;
         this.claveUsuario = _claveUsuario;
         this.listaCitas = _listaCitas;
@@ -22,7 +22,7 @@ export class Usuario{
         return this.claveUsuario;
     }
 
-    getListaCitas(): [Cita]{
+    getListaCitas(): Cita[]{
         return this.listaCitas;
     }
 
@@ -35,7 +35,7 @@ export class Usuario{
         this.claveUsuario = _claveUsuario;
     }
 
-    setListaCitas(_listaCitas: [Cita]){
+    setListaCitas(_listaCitas: Cita[]){
         this.listaCitas = _listaCitas;
     }
 
