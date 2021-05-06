@@ -7,7 +7,7 @@ export class Cita{
     private presupuesto: number;
     private fecha: Date;
 
-    constructor(_idCita: number = -1, _nombreUsuario: string, _nombreCliente:string, _presupuesto: number, _fecha: Date){
+    constructor(_nombreUsuario: string, _nombreCliente:string, _presupuesto: number, _fecha: Date, _idCita: number){
         this.idCita = _idCita;
         this.nombreUsuario = _nombreUsuario;
         this.nombreCliente = _nombreCliente;

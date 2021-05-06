@@ -12,8 +12,8 @@ export class CitasService {
   constructor() { }
 
   //Método que crea una cita, la devuelve, y la añade a citas.
-  crearCita(_idCita: number, _nombreUsuario: string, _nombreCliente: string, _presupuesto: number, _fecha: Date): Cita{
-    const cita: Cita = new Cita(_idCita, _nombreUsuario, _nombreCliente, _presupuesto, _fecha);
+  crearCita(_nombreUsuario: string, _nombreCliente: string, _presupuesto: number, _fecha: Date, _idCita: number = -1): Cita{
+    const cita: Cita = new Cita(_nombreUsuario, _nombreCliente, _presupuesto, _fecha, _idCita);
     this.citas.push(cita);
     return cita;
   }
