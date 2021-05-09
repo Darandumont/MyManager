@@ -83,6 +83,10 @@ export class AutorizacionService {
     }
   }
 
+  async isEmailVerificado(user: User){
+    return user.emailVerified;
+  }
+
   //Método para cerrar sesión.
   async cerrarSesion(): Promise<void> {
     try {

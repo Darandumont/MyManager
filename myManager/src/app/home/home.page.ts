@@ -37,7 +37,8 @@ export class HomePage {
       const user = await this.autoSvc.iniciarSesion(email.value, password.value);
       if (user) {
         //Todo: CheckEmail
-        
+        console.log("User:", user); 
+        console.log("Verificado:", user.emailVerified);
 
       } else {
         valido = false;
@@ -45,6 +46,8 @@ export class HomePage {
       }
 
     } catch (error) {
+      console.log("Error:", error);
+
       valido = false;
       mensaje = this.mensajeError;
     }
@@ -65,7 +68,8 @@ export class HomePage {
       const user = await this.autoSvc.iniciarSesionGoolge();
       if (user) {
         //Todo: CheckEmail
-        
+        console.log("User:", user);  
+        console.log("Verificado:", user.emailVerified);
 
       } else {
         valido = false;
@@ -73,6 +77,8 @@ export class HomePage {
       }
 
     } catch (error) {
+      console.log("Error:", error);
+
       valido = false;
       mensaje = this.mensajeError;
     }
@@ -94,5 +100,9 @@ export class HomePage {
 
   private mostrarToast(mensaje: string, valido: boolean): void{
     this.componenteIonicService.presentToast(mensaje, valido);
+  }
+
+  private validarCamposRellenos(email, password): boolean{
+    return true;
   }
 }

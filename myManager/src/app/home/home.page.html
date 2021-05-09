@@ -9,8 +9,6 @@
 <ion-content class="background">
   <br>
   <br>
-  <br>
-  <br>
   <ion-text color="light">
     <h2>INICIO DE SESIÓN</h2>
   </ion-text>
@@ -19,7 +17,6 @@
   <br>
   <div id="container">
     <form>
-      <ion-grid>
         <ion-row>
           <ion-col size="1">
           </ion-col>
@@ -44,6 +41,7 @@
           <ion-col size="1">
           </ion-col>
         </ion-row>
+        <br class="divider line one-line">
         <ion-row>
           <ion-col size="1">
           </ion-col>
@@ -53,7 +51,19 @@
           <ion-col size="1">
           </ion-col>
         </ion-row>
-      </ion-grid>
+      <span class="divider line one-line"> o </span>
+      <ion-row>
+        <ion-col size="1">
+        </ion-col>
+        <ion-col size="10">
+          <ion-button type='submit' color="danger" (click)="onLoginGoogle(email, password)" expand="block">
+            <ion-label>Entrar con Google</ion-label>
+            <ion-icon id="iconoGoogle" name="logo-google"></ion-icon>
+          </ion-button>
+        </ion-col>
+        <ion-col size="1">
+        </ion-col>
+      </ion-row>
     </form>
   </div>
 </ion-content>
