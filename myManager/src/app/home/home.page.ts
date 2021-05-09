@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ComponentesIonicService } from 'src/app/services/componentes-ionic.service'
+import { AutorizacionService } from '../services/autorizacion.service';
 
 @Component({
   selector: 'app-home',
@@ -12,51 +13,86 @@ export class HomePage {
   public usuario: string = "";
   public clave: string = "";
 
+  private mensajeError: string = "Datos incorrectos";
+  private mensajeCorrecto: string = "Datos validados con éxito";
+
   constructor(
     //Recibe un objeto ComponentesIonicService que provee los distintos componentes.
     public componenteIonicService: ComponentesIonicService,
     //Objeto Router que permite la navegación entre páginas.
-    public router:Router,
+    public router: Router,
+    private autoSvc: AutorizacionService
   ) { }
 
   ngOnInit() {
   }
 
-  //Método que llama a la acción que genera el ActionSheet.
-  generarActionSheet(){
-    this.componenteIonicService.presentActionSheet();
-  }
+  //Método que se ejecuta cuando se pulsa el botón de entrar.
+  async onLogin(email, password) {
 
-  //Método que recibe una página y va a ella.
-  irAPagina(nuevaPagina: string){
-    if(this.validarDatos()){
-      this.router.navigate([nuevaPagina]);
+    let valido = true;
+    let mensaje = this.mensajeCorrecto;
+
+    try {
+      const user = await this.autoSvc.iniciarSesion(email.value, password.value);
+      if (user) {
+        //Todo: CheckEmail
+        
+
+      } else {
+        valido = false;
+        mensaje = this.mensajeError;
+      }
+
+    } catch (error) {
+      valido = false;
+      mensaje = this.mensajeError;
+    }
+
+    this.mostrarToast(mensaje, valido);
+
+    if (valido) {
+      this.avanzarSiguientePagina(email, password);
     }
   }
 
-  //Método para validar los datos del usuario
-  validarDatos(): boolean{
+  async onLoginGoogle(email, password) {
 
-    this.usuario = ((document.getElementById("input_usuario") as HTMLInputElement).value);
-    this.clave = ((document.getElementById("input_clave") as HTMLInputElement).value);
+    let valido = true;
+    let mensaje = this.mensajeCorrecto;
 
-    console.log(this.usuario, this.clave);
-    let mensaje = "Datos incorrectos";
-    let valido = false;
-    
-    if(this.usuario === "dani" && this.clave === "1234"){
-      mensaje = "Datos validados con éxito";
-      valido = true;
+    try {
+      const user = await this.autoSvc.iniciarSesionGoolge();
+      if (user) {
+        //Todo: CheckEmail
+        
 
-      ((document.getElementById("input_usuario") as HTMLInputElement).value) = "";
-      ((document.getElementById("input_clave") as HTMLInputElement).value) = "";
+      } else {
+        valido = false;
+        mensaje = this.mensajeError;
+      }
+
+    } catch (error) {
+      valido = false;
+      mensaje = this.mensajeError;
     }
 
-    this.mostrarToast(mensaje, valido);    
-    return valido;
+    this.mostrarToast(mensaje, valido);
+
+    if (valido) {
+      this.avanzarSiguientePagina(email, password);
+    }
   }
 
-  mostrarToast(mensaje: string, valido: boolean){
+  private avanzarSiguientePagina(email, password): void{
+    //Si todo correcto vamos a la siguiente página y limpiamos los campos.
+    this.router.navigate(['home']);
+
+    email.value = "";
+    password.value = "";
+  }
+
+  private mostrarToast(mensaje: string, valido: boolean): void{
     this.componenteIonicService.presentToast(mensaje, valido);
   }
 }

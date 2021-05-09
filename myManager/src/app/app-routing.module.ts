@@ -10,7 +10,15 @@ const routes: Routes = [
     path: '',
     redirectTo: 'home',
     pathMatch: 'full'
+  },  {
+    path: 'registrar-usuario',
+    loadChildren: () => import('./pages/registrar-usuario/registrar-usuario.module').then( m => m.RegistrarUsuarioPageModule)
+  },
+  {
+    path: 'administracion',
+    loadChildren: () => import('./pages/administracion/administracion.module').then( m => m.AdministracionPageModule)
   }
+
 ];
 
 @NgModule({
