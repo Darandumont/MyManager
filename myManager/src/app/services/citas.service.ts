@@ -25,7 +25,7 @@ export class CitasService {
 
   //Método que devuelve una cita por su id.
   static getCitaById(_idCita: number): Cita{
-    return CitasService.citas.find(cita => cita.getIdCita() === _idCita);
+    return CitasService.citas.find(cita => cita.idCita === _idCita);
   }
 
   //Método que elimina la cita por el id.
@@ -33,7 +33,7 @@ export class CitasService {
     let eliminada: boolean = false;
 
     //Buscamos el índice de la cita.
-    let indice: number = CitasService.citas.findIndex(cita => cita.getIdCita() === _idCita);
+    let indice: number = CitasService.citas.findIndex(cita => cita.idCita === _idCita);
     
     if(indice !== -1){
       CitasService.citas.splice(indice, 1);

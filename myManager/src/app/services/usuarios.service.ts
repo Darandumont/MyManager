@@ -26,7 +26,7 @@ export class UsuariosService {
 
   //Método que devuelve un Usuario por su nombreUsuario.
   static getUsuarioByNombreUsuario(_nombreUsuario: string): Usuario{
-    return UsuariosService.usuarios.find(usuario => usuario.getNombreUsuario() === _nombreUsuario);
+    return UsuariosService.usuarios.find(usuario => usuario.nombreUsuario === _nombreUsuario);
   }
 
   //Método que elimina un Usuario por su nombreUsuario.
@@ -34,7 +34,7 @@ export class UsuariosService {
     let eliminado: boolean = false;
 
     //Buscamos el índice de la cita.
-    let indice: number = UsuariosService.usuarios.findIndex(usuario => usuario.getNombreUsuario() === _nombreUsuario);
+    let indice: number = UsuariosService.usuarios.findIndex(usuario => usuario.nombreUsuario === _nombreUsuario);
     
     if(indice !== -1){
       UsuariosService.usuarios.splice(indice, 1);
