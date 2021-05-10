@@ -1,12 +1,21 @@
 <ion-header>
+
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>Principal</ion-title>
+    <ion-title id="dia">DIA X</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <ion-list id="lista_citas">
+    <ion-item>
+      <ion-label (click)="crearCita()">Pokémon Yellow</ion-label>
+    </ion-item>
+    
+  </ion-list>
 </ion-content>
+<ion-footer>
+  <ion-button type='large' (click)="crearCita()" expand="block">+</ion-button>
+</ion-footer>

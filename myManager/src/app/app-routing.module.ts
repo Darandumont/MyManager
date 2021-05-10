@@ -21,6 +21,10 @@ const routes: Routes = [
   {
     path: 'principal',
     loadChildren: () => import('./pages/principal/principal.module').then( m => m.PrincipalPageModule)
+  },
+  {
+    path: 'crear-cita',
+    loadChildren: () => import('./pages/crear-cita/crear-cita.module').then( m => m.CrearCitaPageModule)
   }
 
 ];

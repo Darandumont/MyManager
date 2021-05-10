@@ -18,7 +18,7 @@ export class RegistrarUsuarioPage implements OnInit {
       const user = await this.autoSvc.registrarse(email.value, password.value);
       //Si recuperamos el usuario, comprobaremos si está verificado. Si no, no podrá continuar.
       if(user){
-        console.log('Usuario registrado con éxito');
+        console.log('User:', user);
         //Todo: CheckEmail
       }
     } catch (error) {
