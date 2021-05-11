@@ -7,40 +7,41 @@ import { Cita } from '../models/citas.modelo';
 })
 export class UsuariosService {
 
-  //Citas creadas.
-   static usuarios: Usuario[] = [];
+  static idCitaActiva: number;
+  static usuario: Usuario;
 
   constructor() { }
 
-  //Método para agregar usuarios.
-  static agregarUsuario(_usuario: Usuario){
-    UsuariosService.usuarios.push(_usuario);
+  //Método para agregar citas.
+  static agregarCitas(_citas: Cita[]){
+    this.usuario.listaCitas.push(..._citas);
   }
 
   //Método que crea una cita, la devuelve, y la añade a citas.
-  static crearUsuario(_nombreUsuario: string, _claveUsuario: string, _listaCitas: Cita[]): Usuario{
-    const usuario: Usuario = new Usuario(_nombreUsuario, _claveUsuario, _listaCitas);
-    UsuariosService.usuarios.push(usuario);
-    return usuario;
+  static crearCita(_nombreUsuario: string, _nombreCliente: string, _presupuesto: number, _fecha: Date, _idCita: number = -1): Cita{
+    const cita: Cita = new Cita(_nombreUsuario, _nombreCliente, _presupuesto, _fecha, _idCita);
+    this.usuario.listaCitas.push(cita);
+    return cita;
   }
 
-  //Método que devuelve un Usuario por su nombreUsuario.
-  static getUsuarioByNombreUsuario(_nombreUsuario: string): Usuario{
-    return UsuariosService.usuarios.find(usuario => usuario.nombreUsuario === _nombreUsuario);
+  //Método que devuelve una cita por su id.
+  static getCitaById(_idCita: number): Cita{
+    return this.usuario.listaCitas.find(cita => cita.idCita === _idCita);
   }
 
-  //Método que elimina un Usuario por su nombreUsuario.
-  static eliminarUsuarioByNombreUsuario(_nombreUsuario: string): boolean{
-    let eliminado: boolean = false;
+  //Método que elimina la cita por el id.
+  static eliminarCitaById(_idCita: number): boolean{
+    let eliminada: boolean = false;
 
     //Buscamos el índice de la cita.
-    let indice: number = UsuariosService.usuarios.findIndex(usuario => usuario.nombreUsuario === _nombreUsuario);
+    let indice: number = this.usuario.listaCitas.findIndex(cita => cita.idCita === _idCita);
     
     if(indice !== -1){
-      UsuariosService.usuarios.splice(indice, 1);
-      eliminado = true;
+      this.usuario.listaCitas.splice(indice, 1);
+      eliminada = true;
     }
     
-    return eliminado;
+    return eliminada;
   }
+
 }

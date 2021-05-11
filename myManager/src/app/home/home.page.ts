@@ -27,62 +27,27 @@ export class HomePage {
   ngOnInit() {
   }
 
-  async entrar(entrar: boolean, email, password){
+  async entrar(entrar: boolean, email, password) {
 
     let valido = true;
     let mensaje = this.mensajeCorrecto;
     let user;
 
-    try {
-<<<<<<< HEAD
-      const user = await this.autoSvc.iniciarSesion(email.value, password.value);
-      if (user) {
-        //Todo: CheckEmail
-        console.log("User:", user); 
-        console.log("Verificado:", user.emailVerified);
-
-      } else {
-        valido = false;
-        mensaje = this.mensajeError;
-        this.mostrarToast(mensaje, valido);
-      }
-
-    } catch (error) {
-      console.log("Error:", error);
-
-      valido = false;
-      mensaje = this.mensajeError;
-    }
-
-   
-
-    if (valido) {
-      this.avanzarSiguientePagina(email, password);
-    }
-  }
-
-  async onLoginGoogle(email, password) {
-
-    let valido = true;
-    let mensaje = this.mensajeCorrecto;
+    let camposValidos: boolean = true;
 
     try {
-      const user = await this.autoSvc.iniciarSesionGoolge();
-      if (user) {
-        //Todo: CheckEmail
-        console.log("User:", user);  
-        console.log("Verificado:", user.emailVerified);
-
+      if (entrar) {
+        camposValidos = this.validarCamposRellenos(email.value, password.value);
+        if (camposValidos) {
+          user = await this.autoSvc.iniciarSesion(email.value, password.value);
+        }else{
+          this.mostrarToast("Debe rellenar los campos", false);
+        }
       } else {
-=======
-      if(entrar){
-        user = await this.autoSvc.iniciarSesion(email.value, password.value);
-      }else{
         user = await this.autoSvc.iniciarSesionGoolge();
       }
 
-      if (!user) {
->>>>>>> 75abd936e71067d3ef8ded026482c9ba4c14fb02
+      if (!user && camposValidos) {
         valido = false;
         mensaje = this.mensajeError;
         this.mostrarToast(mensaje, valido);
@@ -95,14 +60,12 @@ export class HomePage {
       mensaje = this.mensajeError;
     }
 
- 
-
-    if (valido) {
+    if (valido && camposValidos) {
       this.avanzarSiguientePagina(email, password);
     }
   }
 
-  private avanzarSiguientePagina(email, password): void{
+  private avanzarSiguientePagina(email, password): void {
     //Si todo correcto vamos a la siguiente página y limpiamos los campos.
     this.router.navigate(['principal']);
 
@@ -110,11 +73,11 @@ export class HomePage {
     password.value = "";
   }
 
-  private mostrarToast(mensaje: string, valido: boolean): void{
+  private mostrarToast(mensaje: string, valido: boolean): void {
     this.componenteIonicService.presentToast(mensaje, valido);
   }
 
-  private validarCamposRellenos(email, password): boolean{
-    return true;
+  private validarCamposRellenos(email: string, password: string): boolean {
+    return email != null && email.length > 0 && password != null && password .length > 0;
   }
 }
