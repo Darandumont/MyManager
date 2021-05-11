@@ -8,13 +8,13 @@ import { Cita } from '../models/citas.modelo';
 export class UsuariosService {
 
   //Citas creadas.
-  private static usuarios: Usuario[] = [];
+   static usuarios: Usuario[] = [];
 
   constructor() { }
 
   //Método para agregar usuarios.
-  static agregarUsuarios(_usuarios: Usuario[]){
-    UsuariosService.usuarios.push(..._usuarios);
+  static agregarUsuario(_usuario: Usuario){
+    UsuariosService.usuarios.push(_usuario);
   }
 
   //Método que crea una cita, la devuelve, y la añade a citas.

@@ -43,6 +43,7 @@ export class HomePage {
       } else {
         valido = false;
         mensaje = this.mensajeError;
+        this.mostrarToast(mensaje, valido);
       }
 
     } catch (error) {
@@ -52,7 +53,7 @@ export class HomePage {
       mensaje = this.mensajeError;
     }
 
-    this.mostrarToast(mensaje, valido);
+   
 
     if (valido) {
       this.avanzarSiguientePagina(email, password);
@@ -74,6 +75,7 @@ export class HomePage {
       } else {
         valido = false;
         mensaje = this.mensajeError;
+        this.mostrarToast(mensaje, valido);
       }
 
     } catch (error) {
@@ -83,7 +85,7 @@ export class HomePage {
       mensaje = this.mensajeError;
     }
 
-    this.mostrarToast(mensaje, valido);
+ 
 
     if (valido) {
       this.avanzarSiguientePagina(email, password);

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import * as $ from 'jquery';
 import { Cita } from 'src/app/models/citas.modelo';
 import { Usuario } from 'src/app/models/usuarios.modelo';
-
-
+import { UsuariosService } from 'src/app/services/usuarios.service';
 
 
 @Component({
@@ -12,22 +12,27 @@ import { Usuario } from 'src/app/models/usuarios.modelo';
   styleUrls: ['./principal.page.scss'],
 })
 export class PrincipalPage implements OnInit {
+  mario: Usuario;
   constructor(public router: Router) { }
 
   //TO DO
   ngOnInit() {
+    //evt: JQuery.Event valor a pasar por parametro en caso de error
+    $('#lista_citas').on('click', 'ion-label', ()=>{
+      this.modificarCita();
+    });
+
     var dia = new Date();
     (document.getElementById("dia") as HTMLInputElement).textContent = dia.toDateString();
-    var mario: Usuario = new Usuario("Marcos", "1234");
-    this.cargarCita(mario);
+    let citas = [];
+    this.mario = new Usuario("Marcos", "1234", citas);
+    UsuariosService.agregarUsuario(this.mario);
+    this.cargarCita(this.mario);
 
-  
-
-  }
+  }  
 
   //Metodo que accede a la ventana de crear cita
   crearCita() {
-
     this.router.navigate(['crear-cita']);
 
   }
@@ -41,7 +46,6 @@ export class PrincipalPage implements OnInit {
     for (const cita of usuario.listaCitas) {
       var elemento = document.createElement("ion-item");
       var elementoCita = document.createElement("ion-label");
-      
       elementoCita.textContent = cita.toString();
       elemento.appendChild(elementoCita);
       bloque.appendChild(elemento);
@@ -50,7 +54,7 @@ export class PrincipalPage implements OnInit {
 
 
   modificarCita() {
-    
+
     this.router.navigate(['modificar-cita']);
   }
 
