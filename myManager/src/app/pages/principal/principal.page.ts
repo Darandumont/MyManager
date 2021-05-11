@@ -50,9 +50,8 @@ export class PrincipalPage implements OnInit {
 
 
   modificarCita() {
-    console.log("dentro");
-
-    this.router.navigate(['crear-cita']);
+    
+    this.router.navigate(['modificar-cita']);
   }
 
 }

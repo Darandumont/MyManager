@@ -25,6 +25,10 @@ const routes: Routes = [
   {
     path: 'crear-cita',
     loadChildren: () => import('./pages/crear-cita/crear-cita.module').then( m => m.CrearCitaPageModule)
+  },
+  {
+    path: 'modificar-cita',
+    loadChildren: () => import('./pages/modificar-cita/modificar-cita.module').then( m => m.ModificarCitaPageModule)
   }
 
 ];

@@ -17,6 +17,6 @@ export class Cita{
 
     //toString.
     toString(): string{
-        return `Cita{idCita='${this.idCita}', nombreUsuarios='${this.nombreUsuario}', nombreCliente='${this.nombreCliente}', presupuesto='${this.presupuesto}', fecha='${this.fecha}'}`;
+        return `${this.idCita}  ${this.nombreUsuario}  ${this.nombreCliente}  ${this.presupuesto}  ${this.fecha}` ;
     }
 }
