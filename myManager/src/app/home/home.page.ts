@@ -27,13 +27,14 @@ export class HomePage {
   ngOnInit() {
   }
 
-  //Método que se ejecuta cuando se pulsa el botón de entrar.
-  async onLogin(email, password) {
+  async entrar(entrar: boolean, email, password){
 
     let valido = true;
     let mensaje = this.mensajeCorrecto;
+    let user;
 
     try {
+<<<<<<< HEAD
       const user = await this.autoSvc.iniciarSesion(email.value, password.value);
       if (user) {
         //Todo: CheckEmail
@@ -73,6 +74,15 @@ export class HomePage {
         console.log("Verificado:", user.emailVerified);
 
       } else {
+=======
+      if(entrar){
+        user = await this.autoSvc.iniciarSesion(email.value, password.value);
+      }else{
+        user = await this.autoSvc.iniciarSesionGoolge();
+      }
+
+      if (!user) {
+>>>>>>> 75abd936e71067d3ef8ded026482c9ba4c14fb02
         valido = false;
         mensaje = this.mensajeError;
         this.mostrarToast(mensaje, valido);
