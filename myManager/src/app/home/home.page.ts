@@ -27,51 +27,20 @@ export class HomePage {
   ngOnInit() {
   }
 
-  //Método que se ejecuta cuando se pulsa el botón de entrar.
-  async onLogin(email, password) {
+  async entrar(entrar: boolean, email, password){
 
     let valido = true;
     let mensaje = this.mensajeCorrecto;
+    let user;
 
     try {
-      const user = await this.autoSvc.iniciarSesion(email.value, password.value);
-      if (user) {
-        //Todo: CheckEmail
-        console.log("User:", user); 
-        console.log("Verificado:", user.emailVerified);
-
-      } else {
-        valido = false;
-        mensaje = this.mensajeError;
+      if(entrar){
+        user = await this.autoSvc.iniciarSesion(email.value, password.value);
+      }else{
+        user = await this.autoSvc.iniciarSesionGoolge();
       }
 
-    } catch (error) {
-      console.log("Error:", error);
-
-      valido = false;
-      mensaje = this.mensajeError;
-    }
-
-    this.mostrarToast(mensaje, valido);
-
-    if (valido) {
-      this.avanzarSiguientePagina(email, password);
-    }
-  }
-
-  async onLoginGoogle(email, password) {
-
-    let valido = true;
-    let mensaje = this.mensajeCorrecto;
-
-    try {
-      const user = await this.autoSvc.iniciarSesionGoolge();
-      if (user) {
-        //Todo: CheckEmail
-        console.log("User:", user);  
-        console.log("Verificado:", user.emailVerified);
-
-      } else {
+      if (!user) {
         valido = false;
         mensaje = this.mensajeError;
       }
