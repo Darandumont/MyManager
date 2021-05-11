@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import * as $ from 'jquery';
 import { Cita } from 'src/app/models/citas.modelo';
 import { Usuario } from 'src/app/models/usuarios.modelo';
-
-
 
 
 @Component({
@@ -16,14 +15,20 @@ export class PrincipalPage implements OnInit {
 
   //TO DO
   ngOnInit() {
+
+    $('#lista_citas').on('click', 'ion-label', (evt: JQuery.Event)=>{
+      this.crearCita();
+    });
+
     var dia = new Date();
     (document.getElementById("dia") as HTMLInputElement).textContent = dia.toDateString();
-    var mario: Usuario = new Usuario("Marcos", "1234");
+    let citas = [];
+    var mario: Usuario = new Usuario("Marcos", "1234", citas);
     this.cargarCita(mario);
 
-  
-
   }
+
+  
 
   //Metodo que accede a la ventana de crear cita
   crearCita() {
