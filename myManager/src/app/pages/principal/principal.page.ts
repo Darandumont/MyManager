@@ -22,6 +22,7 @@ export class PrincipalPage implements OnInit{
       this.modificarCita(evt);
     });
 
+    //Esto tiene que ir en el home.
     this.mario = new Usuario("Marcos", "1234");
     UsuariosService.usuario = this.mario;
 
@@ -45,7 +46,7 @@ export class PrincipalPage implements OnInit{
   }
 
   cargarCita(usuario: Usuario) {
-    let fecha = new Date();
+  
     //var bloque = (document.getElementById("lista_citas") as HTMLIonListElement);
     let bloque = $("#lista_citas");
     for (const cita of usuario.listaCitas) {
