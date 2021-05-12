@@ -50,13 +50,11 @@ export class PrincipalPage implements OnInit{
     //var bloque = (document.getElementById("lista_citas") as HTMLIonListElement);
     let bloque = $("#lista_citas");
     for (const cita of usuario.listaCitas) {
-      let elementoCita = $('<ion-label/>', {
-        'html' : cita.toString(),
-        'id' : cita.idCita
-      });
 
       let elemento = $('<ion-item/>', {
-        'html' : elementoCita
+        'html' : cita.toString(),
+        'id' : cita.idCita,
+        'class' : 'cita' //Para dar estilos a la cita ir a theme/variables.scss
       });
 
       bloque.append(elemento);
