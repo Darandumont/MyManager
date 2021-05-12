@@ -3,12 +3,12 @@ import { Cita } from './citas.modelo';
 export class Usuario{
 
     //Atributos;
-    nombreUsuario: string; //PK en la base de datos.
+    emailUsuario: string; //PK en la base de datos.
     claveUsuario: string;
     listaCitas: Cita[];
 
-    constructor(_nombreUsuario: string, _claveUsuario:string, _listaCitas: Cita[] = []){
-        this.nombreUsuario = _nombreUsuario;
+    constructor(_emailUsuario: string, _claveUsuario:string, _listaCitas: Cita[] = []){
+        this.emailUsuario = _emailUsuario;
         this.claveUsuario = _claveUsuario;
         this.listaCitas = _listaCitas;
     }    
@@ -26,7 +26,7 @@ export class Usuario{
             }
         };
 
-        return `Usuario{nombreUsuario='${this.nombreUsuario}', claveUsuario='${this.claveUsuario}', listaCitas='${listaCitasToString}'}`;
+        return `Usuario{emailUsuario='${this.emailUsuario}', claveUsuario='${this.claveUsuario}', listaCitas='${listaCitasToString}'}`;
     }
 
 }

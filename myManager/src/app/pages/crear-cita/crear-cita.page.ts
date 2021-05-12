@@ -50,7 +50,7 @@ export class CrearCitaPage implements OnInit {
     if(nombre.val() != "" && precio.val() != ""){
       this.mostrarToast(this.mensajeCorrecto,valido);
       let precioFinal = precio.val() as number;
-      let citaNueva = new Cita(UsuariosService.usuario.nombreUsuario, nombre.val().toString(),precioFinal,this.dia,(UsuariosService.usuario.listaCitas.length)+1);
+      let citaNueva = new Cita(UsuariosService.usuario.emailUsuario, nombre.val().toString(),precioFinal,this.dia,(UsuariosService.usuario.listaCitas.length)+1);
       UsuariosService.usuario.listaCitas.push(citaNueva);
       //SE AÑADE LA CITA A LA BASE DE DATOS Y SE LE AÑADE AL USUARIO
 

@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Usuario } from '../models/usuarios.modelo';
 import { Cita } from '../models/citas.modelo';
+import { User } from '../compartido/usuario.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsuariosService {
 
+  static usuarioAutorizacion: User;
   static idCitaActiva: number;
   static usuario: Usuario;
 

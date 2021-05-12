@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ComponentesIonicService } from 'src/app/services/componentes-ionic.service'
+import { User } from '../compartido/usuario.interface';
 import { AutorizacionService } from '../services/autorizacion.service';
+import { UsuariosService } from '../services/usuarios.service';
 
 @Component({
   selector: 'app-home',
@@ -27,42 +29,55 @@ export class HomePage {
   ngOnInit() {
   }
 
+  ionViewWillEnter(){
+    UsuariosService.usuarioAutorizacion = null;
+  }
+
   async entrar(entrar: boolean, email, password) {
 
-    let valido = true;
-    let mensaje = this.mensajeCorrecto;
-    let user;
-
-    let camposValidos: boolean = true;
+    let datosToast: [string, boolean] = [this.mensajeCorrecto, true];
+    
+    let user: User;
+    let camposValidos: boolean = false;
+    let toastRelleno = false;
 
     try {
       if (entrar) {
         camposValidos = this.validarCamposRellenos(email.value, password.value);
         if (camposValidos) {
           user = await this.autoSvc.iniciarSesion(email.value, password.value);
+          
         }else{
-          this.mostrarToast("Debe rellenar los campos", false);
+          datosToast = ["Debe rellenar los campos", false];
+          toastRelleno = true;
         }
       } else {
         user = await this.autoSvc.iniciarSesionGoolge();
       }
 
-      if (!user && camposValidos) {
-        valido = false;
-        mensaje = this.mensajeError;
-        this.mostrarToast(mensaje, valido);
+      if(!toastRelleno && !user){
+        datosToast = [this.mensajeError, false];
+        toastRelleno = true;
       }
 
     } catch (error) {
       console.log("Error:", error);
-
-      valido = false;
-      mensaje = this.mensajeError;
+      if(!toastRelleno){
+        datosToast = [this.mensajeError, false];
+      }
     }
 
-    if (valido && camposValidos) {
-      this.avanzarSiguientePagina(email, password);
+    if (user) {
+
+      if(user.emailVerified){
+        UsuariosService.usuarioAutorizacion = user;
+        this.avanzarSiguientePagina(email, password);
+      }else if(!toastRelleno){
+        datosToast = ["Debe verificar el email", false];
+      }      
     }
+
+    this.mostrarToast(datosToast[0], datosToast[1]);
   }
 
   private avanzarSiguientePagina(email, password): void {

@@ -12,7 +12,7 @@ import { UsuariosService } from 'src/app/services/usuarios.service';
   styleUrls: ['./principal.page.scss'],
 })
 export class PrincipalPage implements OnInit{
-  mario: Usuario;
+  usuario: Usuario;
   constructor(public router: Router) { }
 
   //TO DO
@@ -23,8 +23,8 @@ export class PrincipalPage implements OnInit{
     });
 
     //Esto tiene que ir en el home.
-    this.mario = new Usuario("Marcos", "1234");
-    UsuariosService.usuario = this.mario;
+    this.usuario = new Usuario(UsuariosService.usuarioAutorizacion.email, "1234");
+    UsuariosService.usuario = this.usuario;
 
   } 
 
@@ -37,7 +37,7 @@ export class PrincipalPage implements OnInit{
     var dia = new Date();
     $("#dia").text(dia.toDateString());
     //(document.getElementById("dia") as HTMLInputElement).textContent = dia.toDateString();    
-    this.cargarCita(this.mario);
+    this.cargarCita(this.usuario);
   }  
 
   //Metodo que accede a la ventana de crear cita
