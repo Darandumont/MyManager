@@ -4,6 +4,7 @@ import * as $ from 'jquery';
 import { Cita } from 'src/app/models/citas.modelo';
 import { Usuario } from 'src/app/models/usuarios.modelo';
 import { ComponentesIonicService } from 'src/app/services/componentes-ionic.service'
+import { FirestoreService } from 'src/app/services/firestore.service';
 import { UsuariosService } from 'src/app/services/usuarios.service';
 
 @Component({
@@ -16,7 +17,10 @@ export class CrearCitaPage implements OnInit {
   private mensajeCorrecto: string = "Cita creada";
   private dia = new Date();
 
-  constructor( public componenteIonicService: ComponentesIonicService, public router: Router) { }
+  constructor( 
+    public componenteIonicService: ComponentesIonicService, 
+    public router: Router,
+    public firestore: FirestoreService) { }
 
   ngOnInit() {
     
@@ -53,7 +57,15 @@ export class CrearCitaPage implements OnInit {
       let citaNueva = new Cita(UsuariosService.usuario.emailUsuario, nombre.val().toString(),precioFinal,this.dia,(UsuariosService.usuario.listaCitas.length)+1);
       UsuariosService.usuario.listaCitas.push(citaNueva);
       //SE AÑADE LA CITA A LA BASE DE DATOS Y SE LE AÑADE AL USUARIO
+      this.firestore.agregarCita(citaNueva)
+        .then(()=>{
+          console.log("Cita añadida");
+        })
+        .catch(()=>{
+          console.log("Error al añadir la cita");
+        });
 
+      //Volvemos a la pantalla anterior.
       this.retrocederPaginaAnterior(nombre, precio);
     }else{
       valido = false;

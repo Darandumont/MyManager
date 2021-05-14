@@ -15,7 +15,7 @@ export class ModificarCitaPage implements OnInit {
     console.log(UsuariosService.idCitaActiva);
     let citaActiva = UsuariosService.getCitaById(UsuariosService.idCitaActiva);   
 
-    (document.getElementById("nombreCita") as HTMLInputElement).textContent = citaActiva.nombreCliente;
+    (document.getElementById("nombreCita") as HTMLInputElement).value = citaActiva.nombreCliente;
   }
 
   modificar(){

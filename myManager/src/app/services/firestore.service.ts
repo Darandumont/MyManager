@@ -22,7 +22,13 @@ export class FirestoreService { //HECHO PASO 1: https://medium.com/angular-chile
 
   //Agregar una cita
   public agregarCita(_cita: Cita){
-    return this.firestore.collection(FirestoreService.TABLA_CITAS).add(_cita);
+    return this.firestore.collection(FirestoreService.TABLA_CITAS).add({
+     'idCita': _cita.idCita,
+     'nombreUsuario': _cita.nombreUsuario,
+     'nombreCliente': _cita.nombreCliente,
+     'presupuesto': _cita.presupuesto,
+     'fecha': _cita.fecha
+    });
   }
 
   //Obtiene una cita
