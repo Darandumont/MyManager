@@ -17,20 +17,22 @@ export class HomePage {
 
   private mensajeError: string = "Datos incorrectos";
   private mensajeCorrecto: string = "Datos validados con éxito";
+  private contadorErrores: number;
 
   constructor(
     //Recibe un objeto ComponentesIonicService que provee los distintos componentes.
     public componenteIonicService: ComponentesIonicService,
     //Objeto Router que permite la navegación entre páginas.
     public router: Router,
-    private autoSvc: AutorizacionService
+    private autoSvc: AutorizacionService,
   ) { }
 
   ngOnInit() {
   }
 
   ionViewWillEnter(){
-    UsuariosService.usuarioAutorizacion = null;
+    UsuariosService.usuarioAutorizacion = undefined;
+    this.contadorErrores = 0;
   }
 
   async entrar(entrar: boolean, email, password) {
@@ -46,7 +48,15 @@ export class HomePage {
         camposValidos = this.validarCamposRellenos(email.value, password.value);
         if (camposValidos) {
           user = await this.autoSvc.iniciarSesion(email.value, password.value);
-          
+          if(user == null){
+            ++this.contadorErrores;
+            datosToast = [`No tiene contraseña almacenada o esta es incorrecta. Número intentos: ${this.contadorErrores}`, false];
+            toastRelleno = true;
+            if(this.contadorErrores === 3){
+              this.componenteIonicService.presentModal(email.value);
+              this.contadorErrores = 0;
+            }
+          }
         }else{
           datosToast = ["Debe rellenar los campos", false];
           toastRelleno = true;
@@ -76,7 +86,7 @@ export class HomePage {
         datosToast = ["Debe verificar el email", false];
       }      
     }
-
+    console.log(UsuariosService.usuarioAutorizacion)
     this.mostrarToast(datosToast[0], datosToast[1]);
   }
 

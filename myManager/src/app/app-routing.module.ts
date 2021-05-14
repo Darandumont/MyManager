@@ -29,6 +29,10 @@ const routes: Routes = [
   {
     path: 'modificar-cita',
     loadChildren: () => import('./pages/modificar-cita/modificar-cita.module').then( m => m.ModificarCitaPageModule)
+  },
+  {
+    path: 'reseteo-clave',
+    loadChildren: () => import('./pages/modals/reseteo-clave/reseteo-clave.module').then( m => m.ReseteoClavePageModule)
   }
 
 ];

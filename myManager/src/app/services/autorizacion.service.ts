@@ -41,7 +41,7 @@ export class AutorizacionService {
   async iniciarSesionGoolge(): Promise<User> {
     try {
       const { user } = await this.afAuth.signInWithPopup(new firebase.default.auth.GoogleAuthProvider());
-      this.actualizarDatosDUsuario(user);
+      this.actualizarDatosDUsuario(user);      
       return user;
     } catch (error) {
       console.log('Error:', error);
@@ -70,7 +70,9 @@ export class AutorizacionService {
       this.actualizarDatosDUsuario(user);
       return user;
     } catch (error) {
-      console.log('Error:', error);
+      if((error as firebase.default.auth.AuthError).code === "auth/wrong-password"){
+        return null;
+      }
     }
   }
 
@@ -109,6 +111,10 @@ export class AutorizacionService {
 
     //Si ya existe le pediremos a firebase que haga un merge.
     return userRef.set(datos, { merge: true });
+  }
+
+  enviarEmailReseteoPassword(email: string){
+    this.afAuth.sendPasswordResetEmail(email);
   }
 
 }
