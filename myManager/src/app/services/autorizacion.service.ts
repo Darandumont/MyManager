@@ -18,8 +18,8 @@ export class AutorizacionService {
     this.user$ = this.afAuth.authState.pipe(
       switchMap((user) => {
         //Si existe user devolvemos su documento.
-        if(user){
-          return this.afs.doc<User>(`users/${user.uid}`).valueChanges();
+        if (user) {
+          return this.afs.doc<User>(`usuarios/${user.uid}`).valueChanges();
         }
 
         //Si no hay devolvemos un Observable null.
@@ -41,7 +41,7 @@ export class AutorizacionService {
   async iniciarSesionGoolge(): Promise<User> {
     try {
       const { user } = await this.afAuth.signInWithPopup(new firebase.default.auth.GoogleAuthProvider());
-      this.actualizarDatosDUsuario(user);      
+      this.actualizarDatosDUsuario(user);
       return user;
     } catch (error) {
       console.log('Error:', error);
@@ -70,7 +70,7 @@ export class AutorizacionService {
       this.actualizarDatosDUsuario(user);
       return user;
     } catch (error) {
-      if((error as firebase.default.auth.AuthError).code === "auth/wrong-password"){
+      if ((error as firebase.default.auth.AuthError).code === "auth/wrong-password") {
         return null;
       }
     }
@@ -85,14 +85,16 @@ export class AutorizacionService {
     }
   }
 
-  async isEmailVerificado(user: User){
+  async isEmailVerificado(user: User) {
     return user.emailVerified;
   }
 
   //Método para cerrar sesión.
   async cerrarSesion(): Promise<void> {
     try {
-      await this.afAuth.signOut();
+      if (this.afAuth.currentUser) {
+        await this.afAuth.signOut();
+      }
     } catch (error) {
       console.log('Error:', error);
     }
@@ -113,7 +115,7 @@ export class AutorizacionService {
     return userRef.set(datos, { merge: true });
   }
 
-  enviarEmailReseteoPassword(email: string){
+  enviarEmailReseteoPassword(email: string) {
     this.afAuth.sendPasswordResetEmail(email);
   }
 

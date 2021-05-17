@@ -31,6 +31,7 @@ export class HomePage {
   }
 
   ionViewWillEnter(){
+    this.autoSvc.cerrarSesion();
     UsuariosService.usuarioAutorizacion = undefined;
     this.contadorErrores = 0;
   }

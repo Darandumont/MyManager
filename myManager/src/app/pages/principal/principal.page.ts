@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import * as $ from 'jquery';
 import { Cita } from 'src/app/models/citas.modelo';
 import { Usuario } from 'src/app/models/usuarios.modelo';
+import { FirestoreService } from 'src/app/services/firestore.service';
 import { UsuariosService } from 'src/app/services/usuarios.service';
 
 
@@ -13,7 +14,9 @@ import { UsuariosService } from 'src/app/services/usuarios.service';
 })
 export class PrincipalPage implements OnInit{
   usuario: Usuario;
-  constructor(public router: Router) { }
+  constructor(
+    public router: Router,
+    public firestore: FirestoreService) { }
 
   //TO DO
   ngOnInit() {

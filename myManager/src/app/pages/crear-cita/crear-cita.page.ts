@@ -61,8 +61,8 @@ export class CrearCitaPage implements OnInit {
         .then(()=>{
           console.log("Cita añadida");
         })
-        .catch(()=>{
-          console.log("Error al añadir la cita");
+        .catch((err)=>{
+          console.log("Error al añadir la cita", err);
         });
 
       //Volvemos a la pantalla anterior.
