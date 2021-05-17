@@ -99,6 +99,10 @@ export class HomePage {
     password.value = "";
   }
 
+  crearUsuario(){
+    this.router.navigate(['registrar-usuario']);
+  }
+
   private mostrarToast(mensaje: string, valido: boolean): void {
     this.componenteIonicService.presentToast(mensaje, valido);
   }

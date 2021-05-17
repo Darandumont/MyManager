@@ -1,23 +1,56 @@
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
     <ion-title>Registrar usuario</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <form>
-    <ion-item lines="full">
-      <ion-label position="floating">Email</ion-label>
-      <ion-input type="text" #email required></ion-input>
-    </ion-item>
-    <ion-item lines="full">
-      <ion-label position="floating">Contraseña</ion-label>
-      <ion-input type="password" #password required></ion-input>
-    </ion-item>
-    <ion-row>
-      <ion-col>
-        <ion-button type="submit" (click)="onRegister(email, password)" expand="block">Registrar</ion-button>
-      </ion-col>
-    </ion-row>
-  </form>
+  <br>
+  <br>
+  <br>
+  <div>
+    <form>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="1">
+          </ion-col>
+          <ion-col size="10">
+            <ion-item class="toma_datos">
+              <ion-label position="floating">Correo</ion-label>
+              <ion-input required type='email'id="correoUsuario" clear-input></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col size="1">
+          </ion-col>
+        </ion-row>
+       <br>
+       <br>
+       <br>
+        <ion-row>
+          <ion-col size="1">
+          </ion-col>
+          <ion-col size="10">
+            <ion-item class="toma_datos">
+              <ion-label position="floating">Contraseña</ion-label>
+              <ion-input required type='password'id="contraseñaUsuario" clear-input></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col size="1">
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="1">
+          </ion-col>
+          <ion-col size="1">
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </form>
+  </div>
 </ion-content>
+<ion-footer> 
+    <ion-button type='large' (click)="crear()" expand="block">Crear</ion-button>
+</ion-footer>
