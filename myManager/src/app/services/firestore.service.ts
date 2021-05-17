@@ -30,7 +30,6 @@ export class FirestoreService { //HECHO PASO 1: https://medium.com/angular-chile
       let currentUser = firebase.default.auth().currentUser;
       this.firestore.collection('usuarios').doc(currentUser.uid)
       .collection('citas').add({
-        idCita: _cita.idCita,
         nombreUsuario: _cita.nombreUsuario,
         nombreCliente: _cita.nombreCliente,
         presupuesto: _cita.presupuesto,
@@ -66,6 +65,11 @@ export class FirestoreService { //HECHO PASO 1: https://medium.com/angular-chile
       })
     })
     //return this.firestore.collection(FirestoreService.CITAS).snapshotChanges();
+  }
+
+  public getCitas2(){
+    let currentUser = firebase.default.auth().currentUser;
+    return this.firestore.collection('usuarios').doc(currentUser.uid).collection('citas').valueChanges();
   }
 
   //Actualiza una cita
