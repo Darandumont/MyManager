@@ -13,9 +13,10 @@ export class ModificarCitaPage implements OnInit {
 
   ngOnInit() {
     console.log(UsuariosService.fechaCitaActiva);
-    let citaActiva = UsuariosService.getCitaByFecha(UsuariosService.fechaCitaActiva);   
-
-    (document.getElementById("nombreCita") as HTMLInputElement).value = citaActiva.nombreCliente;
+    let cita = UsuariosService.cita;
+    
+   (document.getElementById("nombreCita") as HTMLInputElement).value = cita.nombreCliente;
+   (document.getElementById("precioCita") as HTMLInputElement).value = cita.presupuesto+"";
   }
 
   modificar(){

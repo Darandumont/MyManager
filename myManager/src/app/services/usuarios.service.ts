@@ -13,6 +13,8 @@ export class UsuariosService {
   static fechaCitaActiva: Date;
   static usuario: Usuario;
 
+  //Atributo q engloba la cita entera 
+  static cita:Cita;
   constructor() { }
 
   //Método para agregar citas.
