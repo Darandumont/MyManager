@@ -51,6 +51,8 @@ export class RegistrarUsuarioPage implements OnInit {
     if(this.validarDatos()){
       this.mostrarToast(this.mensajeCorrecto,this.validarDatos());
     }
+
+    
   }
 
   private mostrarToast(mensaje: string, valido: boolean): void {

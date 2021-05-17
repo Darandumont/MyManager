@@ -3,13 +3,14 @@ import { Usuario } from '../models/usuarios.modelo';
 import { Cita } from '../models/citas.modelo';
 import { User } from '../compartido/usuario.interface';
 
+//No creo que la usemos
 @Injectable({
   providedIn: 'root'
 })
 export class UsuariosService {
 
   static usuarioAutorizacion: User;
-  static idCitaActiva: number;
+  static fechaCitaActiva: Date;
   static usuario: Usuario;
 
   constructor() { }
@@ -20,23 +21,23 @@ export class UsuariosService {
   }
 
   //Método que crea una cita, la devuelve, y la añade a citas.
-  static crearCita(_nombreUsuario: string, _nombreCliente: string, _presupuesto: number, _fecha: Date, _idCita: number = -1): Cita{
-    const cita: Cita = new Cita(_nombreUsuario, _nombreCliente, _presupuesto, _fecha, _idCita);
+  static crearCita(_nombreUsuario: string, _nombreCliente: string, _presupuesto: number, _fecha: Date): Cita{
+    const cita: Cita = new Cita(_nombreUsuario, _nombreCliente, _presupuesto, _fecha);
     this.usuario.listaCitas.push(cita);
     return cita;
   }
 
-  //Método que devuelve una cita por su id.
-  static getCitaById(_idCita: number): Cita{
-    return this.usuario.listaCitas.find(cita => cita.idCita === _idCita);
+  //Método que devuelve una cita por su fecha.
+  static getCitaByFecha(_fechaCita: Date): Cita{
+    return this.usuario.listaCitas.find(cita => cita.fecha === _fechaCita);
   }
 
-  //Método que elimina la cita por el id.
-  static eliminarCitaById(_idCita: number): boolean{
+  //Método que elimina la cita por la fecha.
+  static eliminarCitaByFecha(_fechaCita: Date): boolean{
     let eliminada: boolean = false;
 
     //Buscamos el índice de la cita.
-    let indice: number = this.usuario.listaCitas.findIndex(cita => cita.idCita === _idCita);
+    let indice: number = this.usuario.listaCitas.findIndex(cita => cita.fecha === _fechaCita);
     
     if(indice !== -1){
       this.usuario.listaCitas.splice(indice, 1);

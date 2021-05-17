@@ -12,8 +12,10 @@ import { UsuariosService } from 'src/app/services/usuarios.service';
   templateUrl: './principal.page.html',
   styleUrls: ['./principal.page.scss'],
 })
-export class PrincipalPage implements OnInit{
+export class PrincipalPage implements OnInit {
   usuario: Usuario;
+  listaCitas: Cita[];
+
   constructor(
     public router: Router,
     public firestore: FirestoreService) { }
@@ -21,27 +23,38 @@ export class PrincipalPage implements OnInit{
   //TO DO
   ngOnInit() {
     //evt: JQuery.Event valor a pasar por parametro en caso de error
-    $('#lista_citas').on('click', 'ion-item', (evt: Event)=>{
+    $('#lista_citas').on('click', 'ion-item', (evt: Event) => {
       this.modificarCita(evt);
     });
 
     //Esto tiene que ir en el home.
     this.usuario = new Usuario(UsuariosService.usuarioAutorizacion.email, "1234");
     UsuariosService.usuario = this.usuario;
+  }
 
-  } 
-
-  ionViewWillEnter(){
+  ionViewWillEnter() {
     $('#lista_citas').empty();
     this.recargarPagina();
   }
 
-  recargarPagina(){
+  // traerCitas(): void {
+  //   this.firestore.getCitas2().subscribe(listaCitas => {
+  //     console.log("Imprimiendo",listaCitas as Cita[])
+  //     this.cargarCitas(listaCitas as Cita[]);
+  //   })
+  // }
+
+  recargarPagina() {
+    // this.traerCitas();
     var dia = new Date();
     $("#dia").text(dia.toDateString());
     //(document.getElementById("dia") as HTMLInputElement).textContent = dia.toDateString();    
-    this.cargarCita(this.usuario);
-  }  
+    //this.cargarCita2();
+    this.firestore.getCitas2().subscribe(listaCitas => {
+      console.log("Imprimiendo", listaCitas as Cita[])
+      this.cargarCitas(listaCitas as Cita[]);
+    })
+  }
 
   //Metodo que accede a la ventana de crear cita
   crearCita() {
@@ -49,16 +62,51 @@ export class PrincipalPage implements OnInit{
   }
 
   cargarCita(usuario: Usuario) {
-  
+
     //var bloque = (document.getElementById("lista_citas") as HTMLIonListElement);
     let bloque = $("#lista_citas");
     for (const cita of usuario.listaCitas) {
 
       let elemento = $('<ion-item/>', {
-        'html' : cita.toString(),
-        'id' : cita.idCita,
-        'class' : 'cita' //Para dar estilos a la cita ir a theme/variables.scss
+        'html': cita.toString(),
+        'id': cita.fecha,
+        'class': 'cita' //Para dar estilos a la cita ir a theme/variables.scss
       });
+
+      bloque.append(elemento);
+    }
+  }
+
+  cargarCita2() {
+
+    //var bloque = (document.getElementById("lista_citas") as HTMLIonListElement);
+    let bloque = $("#lista_citas");
+
+    for (const cita of this.listaCitas) {
+
+      let elemento = $('<ion-item/>', {
+        'html': cita.toString(),
+        'id': cita.fecha,
+        'class': 'cita' //Para dar estilos a la cita ir a theme/variables.scss
+      });
+
+      bloque.append(elemento);
+    }
+  }
+
+  cargarCitas(listaCitas: Cita[]) {
+
+    //var bloque = (document.getElementById("lista_citas") as HTMLIonListElement);
+    let bloque = $("#lista_citas");
+
+    for (const cita of listaCitas) {
+      let elemento = $('<ion-item/>', {
+        'html': `${cita.nombreUsuario} ${cita.nombreCliente}  ${cita.presupuesto}  ${cita.fecha}`,//Revisar fecha
+        'id': cita.fecha,
+        'class': 'cita' //Para dar estilos a la cita ir a theme/variables.scss
+      }
+      );
+      //this.usuario.listaCitas.push(cita);
 
       bloque.append(elemento);
     }
@@ -67,7 +115,8 @@ export class PrincipalPage implements OnInit{
   modificarCita(evt: Event) {
 
     let elemento = (evt.target) as HTMLIonItemElement;
-    UsuariosService.idCitaActiva = parseInt(elemento.id);
+    UsuariosService.fechaCitaActiva = (elemento.id as any) as Date;
+    console.log("Fecha que cojo", UsuariosService.fechaCitaActiva);
 
     this.router.navigate(['modificar-cita']);
   }
