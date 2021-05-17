@@ -8,7 +8,8 @@ import { ComponentesIonicService } from 'src/app/services/componentes-ionic.serv
   styleUrls: ['./registrar-usuario.page.scss'],
 })
 export class RegistrarUsuarioPage implements OnInit {
-  private mensajeError: string = "Rellene BIEN todos los datos";
+  private mensajeErrorCorreo: string = "El correo debe tener indicado el @ y terminar con .com /.es";
+  private mensajeErrorContraseña :string = "Contraseña superior a 5 caracteres";
   private mensajeCorrecto: string = "Usuario registrado creada";
 
   constructor(private autoSvc: AutorizacionService, public componenteIonicService: ComponentesIonicService) { }
@@ -36,10 +37,10 @@ export class RegistrarUsuarioPage implements OnInit {
       if (contraseña.value.length > 5) {
         return true;
       }else{
-        this.mostrarToast("Contraseña superior a 5 caracteres",false);
+        this.mostrarToast(this.mensajeErrorContraseña,false);
       }
     }else{
-      this.mostrarToast("El correo debe tener indicado el @ y terminar con .com / .es",false);
+      this.mostrarToast(this.mensajeErrorCorreo,false);
     }
     return false;
   }
@@ -51,6 +52,8 @@ export class RegistrarUsuarioPage implements OnInit {
     if(this.validarDatos()){
       this.mostrarToast(this.mensajeCorrecto,this.validarDatos());
     }
+    correo.value = "";
+    contraseña.value ="";
   }
 
   private mostrarToast(mensaje: string, valido: boolean): void {
