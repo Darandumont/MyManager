@@ -9,6 +9,7 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { Calendar } from '@ionic-native/calendar/ngx';
 @NgModule({
   declarations: [
     AppComponent
@@ -21,7 +22,8 @@ import { AppRoutingModule } from './app-routing.module';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule],
   providers: [
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    Calendar
   ],
   bootstrap: [
     AppComponent
