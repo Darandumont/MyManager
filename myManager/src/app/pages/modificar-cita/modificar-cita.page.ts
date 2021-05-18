@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Cita } from 'src/app/models/citas.modelo';
 import { Usuario } from 'src/app/models/usuarios.modelo';
+import { ComponentesIonicService } from 'src/app/services/componentes-ionic.service';
+import { FirestoreService } from 'src/app/services/firestore.service';
 import { UsuariosService } from 'src/app/services/usuarios.service';
 
 @Component({
@@ -8,18 +12,27 @@ import { UsuariosService } from 'src/app/services/usuarios.service';
   styleUrls: ['./modificar-cita.page.scss'],
 })
 export class ModificarCitaPage implements OnInit {
-
-  constructor() { }
+  cita: Cita;
+  constructor(public componenteIonicService: ComponentesIonicService,
+    public router: Router,
+    public firestore: FirestoreService) { }
 
   ngOnInit() {
     console.log(UsuariosService.fechaCitaActiva);
-    let cita = UsuariosService.cita;
-    
-   (document.getElementById("nombreCita") as HTMLInputElement).value = cita.nombreCliente;
-   (document.getElementById("precioCita") as HTMLInputElement).value = cita.presupuesto+"";
+    this.cita = UsuariosService.cita;
+
+    (document.getElementById("nombreCita") as HTMLInputElement).value = this.cita.nombreCliente;
+    (document.getElementById("precioCita") as HTMLInputElement).value = this.cita.presupuesto + "";
   }
 
-  modificar(){
-    
+  modificar() {
+    this.cita.nombreCliente = (document.getElementById("nombreCita") as HTMLInputElement).value;
+    this.cita.presupuesto = ((document.getElementById("precioCita") as HTMLInputElement).value as any) as number;
+    console.log("Objetto modificado");
+
+    let idCita :string = (this.cita.fecha as any)as string;
+    this.firestore.updateCita(idCita,this.cita);
+    UsuariosService.cita = this.cita;
+    this.router.navigate(['principal']);
   }
 }

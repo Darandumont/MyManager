@@ -93,7 +93,7 @@ export class HomePage {
 
   private avanzarSiguientePagina(email, password): void {
     //Si todo correcto vamos a la siguiente página y limpiamos los campos.
-    this.router.navigate(['principal']);
+    this.router.navigate(['calendario']);
 
     email.value = "";
     password.value = "";

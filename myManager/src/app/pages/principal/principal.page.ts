@@ -47,7 +47,7 @@ export class PrincipalPage implements OnInit {
 
   recargarPagina() {
     // this.traerCitas();
-    var dia = new Date();
+    var dia = UsuariosService.fechaCitaActiva;
     $("#dia").text(dia.toDateString());
     //(document.getElementById("dia") as HTMLInputElement).textContent = dia.toDateString();    
     //this.cargarCita2();

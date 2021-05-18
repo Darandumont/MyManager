@@ -73,7 +73,7 @@ export class FirestoreService { //HECHO PASO 1: https://medium.com/angular-chile
   }
 
   //Actualiza una cita
-  public updateCita(_idCita: number, _cita: Cita) {
+  public updateCita(_idCita: string, _cita: Cita) {
     return this.firestore.collection(FirestoreService.CITAS).doc(((_idCita as any) as string)).set(_cita);
   }
 
