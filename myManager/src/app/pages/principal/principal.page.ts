@@ -47,9 +47,9 @@ export class PrincipalPage implements OnInit {
 
   recargarPagina() {
     // this.traerCitas();
-    let dia = new Date();
-    //$("#dia").text(`${dia.getFullYear()}-${dia.getMonth()}-${dia.getDate()}`);
-    $("#dia").text(dia.toTimeString());
+    let dia = UsuariosService.fechaCitaActiva;
+    let fecha = new Date(dia);
+    $("#dia").text(fecha.toDateString());
     //(document.getElementById("dia") as HTMLInputElement).textContent = dia.toDateString();    
     //this.cargarCita2();
     this.firestore.getCitas2().subscribe(listaCitas => {

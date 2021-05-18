@@ -33,6 +33,10 @@ const routes: Routes = [
   {
     path: 'reseteo-clave',
     loadChildren: () => import('./pages/modals/reseteo-clave/reseteo-clave.module').then( m => m.ReseteoClavePageModule)
+  },
+  {
+    path: 'calendario',
+    loadChildren: () => import('./page/calendario/calendario.module').then( m => m.CalendarioPageModule)
   }
 
 ];
