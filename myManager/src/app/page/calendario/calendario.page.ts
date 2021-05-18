@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UsuariosService } from 'src/app/services/usuarios.service';
-import { Calendar } from '@ionic-native/calendar/ngx';
+//import { Calendar } from '@ionic-native/calendar/ngx';
 import { Platform } from '@ionic/angular';
 
 @Component({
@@ -14,8 +14,8 @@ export class CalendarioPage implements OnInit {
 
   constructor(
     public router: Router,
-    public platform: Platform,
-    public calendar: Calendar) { }
+    public platform: Platform
+    /*public calendar: Calendar*/) { }
 
   ngOnInit() {
     this.calendario = document.getElementById("calendario") as HTMLInputElement;
@@ -24,10 +24,10 @@ export class CalendarioPage implements OnInit {
     
     $('#calendario').val(`${dia.getFullYear()}-${mes as number}-${dia.getDate()}`);
     
-    this.calendar.createCalendar('MyCalendar').then(
-      (msg) => { console.log("Correcto",msg); },
-      (err) => { console.log("Incorrecto",err); }
-    );
+    // this.calendar.createCalendar('MyCalendar').then(
+    //   (msg) => { console.log("Correcto",msg); },
+    //   (err) => { console.log("Incorrecto",err); }
+    // );
   }
 
   abrir() {
