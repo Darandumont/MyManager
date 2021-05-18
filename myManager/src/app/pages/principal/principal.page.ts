@@ -47,12 +47,13 @@ export class PrincipalPage implements OnInit {
 
   recargarPagina() {
     // this.traerCitas();
-    var dia = new Date();
-    $("#dia").text(dia.toDateString());
+    let dia = new Date();
+    //$("#dia").text(`${dia.getFullYear()}-${dia.getMonth()}-${dia.getDate()}`);
+    $("#dia").text(dia.toTimeString());
     //(document.getElementById("dia") as HTMLInputElement).textContent = dia.toDateString();    
     //this.cargarCita2();
     this.firestore.getCitas2().subscribe(listaCitas => {
-      console.log("Imprimiendo", listaCitas.length)
+      console.log("Imprimiendo", listaCitas.length);
       this.cargarCitas(listaCitas as Cita[]);
     })
   }
@@ -119,30 +120,11 @@ export class PrincipalPage implements OnInit {
   modificarCita(evt: Event) {
 
     let elemento = (evt.target) as HTMLIonItemElement;
-    UsuariosService.fechaCitaActiva = (elemento.id as unknown) as Date;
+    UsuariosService.fechaCitaActiva = elemento.id;
 
-    UsuariosService.cita = this.usuario.listaCitas[this.elegirCita(elemento.id)];
-    //console.log("Fecha que cojo", UsuariosService.cita.toString());
+    UsuariosService.cita = this.usuario.listaCitas.find(cita => cita.fecha == elemento.id);
 
     this.router.navigate(['modificar-cita']);
-  }
-
-  elegirCita(id: string): number {
-    let posicion = 0;
-    let contador = 0
-    let listaCita : Cita[] = this.usuario.listaCitas;     
-    let fechaComparar :Date = (id as any)as Date;
-    
-    for (const cita of listaCita) {
-
-      if(fechaComparar == cita.fecha){
-          posicion = contador;
-        
-      }
-      contador++;
-    }
-
-    return posicion;
   }
 }
 

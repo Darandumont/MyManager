@@ -15,7 +15,7 @@ import { UsuariosService } from 'src/app/services/usuarios.service';
 export class CrearCitaPage implements OnInit {
   private mensajeError: string = "Rellene todos los datos";
   private mensajeCorrecto: string = "Cita creada";
-  private dia = new Date();
+  private dia: string = (new Date()).toString();
 
   constructor( 
     public componenteIonicService: ComponentesIonicService, 
@@ -24,9 +24,11 @@ export class CrearCitaPage implements OnInit {
 
   ngOnInit() {
     
-    $("#diaCita").text(this.dia.toDateString());
+    $("#diaCita").text(this.dia);
     //(document.getElementById("diaCita") as HTMLInputElement).textContent=this.dia.toDateString();
-   
+    //Prueba random
+    let f: Date = new Date(this.dia);
+    console.log(f);
   }
 
   // crear(usuario:Usuario){

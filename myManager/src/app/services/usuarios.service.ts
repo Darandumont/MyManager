@@ -10,7 +10,7 @@ import { User } from '../compartido/usuario.interface';
 export class UsuariosService {
 
   static usuarioAutorizacion: User;
-  static fechaCitaActiva: Date;
+  static fechaCitaActiva: string;
   static usuario: Usuario;
 
   //Atributo q engloba la cita entera 
@@ -23,19 +23,19 @@ export class UsuariosService {
   }
 
   //Método que crea una cita, la devuelve, y la añade a citas.
-  static crearCita(_nombreUsuario: string, _nombreCliente: string, _presupuesto: number, _fecha: Date): Cita{
+  static crearCita(_nombreUsuario: string, _nombreCliente: string, _presupuesto: number, _fecha: string): Cita{
     const cita: Cita = new Cita(_nombreUsuario, _nombreCliente, _presupuesto, _fecha);
     this.usuario.listaCitas.push(cita);
     return cita;
   }
 
   //Método que devuelve una cita por su fecha.
-  static getCitaByFecha(_fechaCita: Date): Cita{
+  static getCitaByFecha(_fechaCita: string): Cita{
     return this.usuario.listaCitas.find(cita => cita.fecha === _fechaCita);
   }
 
   //Método que elimina la cita por la fecha.
-  static eliminarCitaByFecha(_fechaCita: Date): boolean{
+  static eliminarCitaByFecha(_fechaCita: string): boolean{
     let eliminada: boolean = false;
 
     //Buscamos el índice de la cita.

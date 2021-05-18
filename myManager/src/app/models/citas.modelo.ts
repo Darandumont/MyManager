@@ -4,9 +4,9 @@ export class Cita{
     nombreUsuario: string;//FK, en base de datos que hace referencia a la PK de Usuarios.
     nombreCliente: string;
     presupuesto: number;
-    fecha: Date;//PK junto con nombre de usuario.
+    fecha: string;//PK junto con nombre de usuario.
 
-    constructor(_nombreUsuario: string, _nombreCliente:string, _presupuesto: number, _fecha: Date){
+    constructor(_nombreUsuario: string, _nombreCliente:string, _presupuesto: number, _fecha: string){
         this.nombreUsuario = _nombreUsuario;
         this.nombreCliente = _nombreCliente;
         this.presupuesto = _presupuesto;
