@@ -16,11 +16,11 @@ export class CalendarioPage implements OnInit {
     public platform: Platform) { }
 
   ngOnInit() {
-    // this.calendario = document.getElementById("calendario") as HTMLInputElement;
-    // let dia = new Date();
-    // let mes = dia.getMonth() < 10? `0${dia.getMonth()+1}`: dia.getMonth()+1 ;
+    this.calendario = document.getElementById("calendario") as HTMLInputElement;
+    let dia = new Date();
+    let mes = dia.getMonth() < 10? `0${dia.getMonth()+1}`: dia.getMonth()+1 ;
     
-    // $('#calendario').val(`${dia.getFullYear()}-${mes as number}-${dia.getDate()}`);
+    $('#calendario').val(`${dia.getFullYear()}-${mes as number}-${dia.getDate()}`);
     
     
   }
@@ -30,17 +30,8 @@ export class CalendarioPage implements OnInit {
     console.log(calendario.value);
     let fecha = new Date(calendario.value);
     UsuariosService.fechaCitaActiva = fecha.toString();
-
-    calendario.addEventListener("click",navegar);
-   
-
-
+    this.router.navigate(["principal"]);
   }
-
-  
-
 }
 
-function navegar(){
-  this.router.navigate(["principal"]);
-}
+

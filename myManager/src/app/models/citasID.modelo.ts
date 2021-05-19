@@ -12,6 +12,6 @@ export class CitaID extends Cita{
 
     //toString.
     public toString(): string{
-        return `${this.citaId} ${this.nombreUsuario} ${this.nombreCliente}  ${this.presupuesto}  ${this.fecha}` ;
+        return `${this.citaId} ${this.nombreUsuario} ${this.nombreCliente}  ${this.presupuesto}  ${this.fecha} ${this.tamanio}` ;
     }
 }

@@ -36,7 +36,8 @@ export class FirestoreService { //HECHO PASO 1: https://medium.com/angular-chile
         nombreUsuario: _cita.nombreUsuario,
         nombreCliente: _cita.nombreCliente,
         presupuesto: _cita.presupuesto,
-        fecha: _cita.fecha
+        fecha: _cita.fecha,
+        tamanio: _cita.tamanio
       })
       .then(
         res => resolve(res),
@@ -86,14 +87,13 @@ export class FirestoreService { //HECHO PASO 1: https://medium.com/angular-chile
       map(actions => actions.map(a => {
         const data = a.payload.doc.data() as Cita;
         const id = a.payload.doc.id;
-        return new CitaID(id, data.nombreUsuario, data.nombreCliente, data.presupuesto, data.fecha);
+        return new CitaID(id, data.nombreUsuario, data.nombreCliente, data.presupuesto, data.fecha, data.tamanio);
       }))
     );
 
-
+    UsuariosService.listaCitasID = [];
     items.forEach(lista => lista.forEach(item =>{
-      //UsuariosService.listaCitasID.push(item);
-      UsuariosService.listaCitasID.push(new CitaID(item.citaId, item.nombreUsuario, item.nombreCliente, item.presupuesto, item.fecha));
+      UsuariosService.listaCitasID.push(item);
     }));
     
   }
