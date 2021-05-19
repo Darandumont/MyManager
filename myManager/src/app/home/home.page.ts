@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ComponentesIonicService } from 'src/app/services/componentes-ionic.service'
 import { User } from '../compartido/usuario.interface';
+import { Usuario } from '../models/usuarios.modelo';
 import { AutorizacionService } from '../services/autorizacion.service';
 import { UsuariosService } from '../services/usuarios.service';
 
@@ -82,6 +83,7 @@ export class HomePage {
 
       if(user.emailVerified){
         UsuariosService.usuarioAutorizacion = user;
+        
         this.avanzarSiguientePagina(email, password);
       }else if(!toastRelleno){
         datosToast = ["Debe verificar el email", false];
@@ -94,7 +96,7 @@ export class HomePage {
   private avanzarSiguientePagina(email, password): void {
     //Si todo correcto vamos a la siguiente página y limpiamos los campos.
     this.router.navigate(['calendario']);
-
+ 
     email.value = "";
     password.value = "";
   }

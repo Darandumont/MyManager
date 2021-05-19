@@ -18,6 +18,7 @@ import { UsuariosService } from 'src/app/services/usuarios.service';
 export class PrincipalPage implements OnInit {
   usuario: Usuario;
   listaCitas: Cita[];
+  fecha: Date;
 
   constructor(
     public router: Router,
@@ -31,6 +32,7 @@ export class PrincipalPage implements OnInit {
       this.modificarCita(evt);
     });
 
+    //Guardamos el usuario con el que han logueado. Seria usuario logueado por GOOGLE
     this.usuario = new Usuario(UsuariosService.usuarioAutorizacion.email, "");
     UsuariosService.usuario = this.usuario;
   }
@@ -41,6 +43,7 @@ export class PrincipalPage implements OnInit {
 
   recargarPagina() {
     let dia = UsuariosService.fechaCitaActiva;
+
     let fecha = new Date(dia);
     $("#dia").text(fecha.toDateString());
 
@@ -55,66 +58,70 @@ export class PrincipalPage implements OnInit {
   }
 
   //Metodo que accede a la ventana de crear cita
-  crearCita() {
+  crearCita(evt: Event) {
     this.router.navigate(['crear-cita']);
   }
 
-  cargarCita(usuario: Usuario) {
+  // cargarCita(usuario: Usuario) {
+  //   let bloque = $("#lista_citas");
 
-    //var bloque = (document.getElementById("lista_citas") as HTMLIonListElement);
-    let bloque = $("#lista_citas");
-    for (const cita of usuario.listaCitas) {
+  //   for (const cita of usuario.listaCitas) {
 
-      let elemento = $('<ion-item/>', {
-        'html': cita.toString(),
-        'id': cita.fecha,
-        'class': 'cita' //Para dar estilos a la cita ir a theme/variables.scss
-      });
+  //     let elemento = $('<ion-item/>', {
+  //       'html': cita.toString(),
+  //       'id': cita.fecha,
+  //       'class': 'cita' //Para dar estilos a la cita ir a theme/variables.scss
 
-      bloque.append(elemento);
-    }
-  }
+  //     });
+  //     bloque.append(elemento);
+  //   }
+  // }
 
-  cargarCita2() {
+  // cargarCita2() {
 
-    //var bloque = (document.getElementById("lista_citas") as HTMLIonListElement);
-    let bloque = $("#lista_citas");
+  //   //var bloque = (document.getElementById("lista_citas") as HTMLIonListElement);
+  //   let bloque = $("#lista_citas");
 
-    for (const cita of this.listaCitas) {
+  //   for (const cita of this.listaCitas) {
 
-      let elemento = $('<ion-item/>', {
-        'html': cita.toString(),
-        'id': cita.fecha,
-        'class': 'cita' //Para dar estilos a la cita ir a theme/variables.scss
-      });
+  //     let elemento = $('<ion-item/>', {
+  //       'html': cita.toString(),
+  //       'id': cita.fecha,
+  //       'class': 'cita' //Para dar estilos a la cita ir a theme/variables.scss
+  //     });
 
-      bloque.append(elemento);
-    }
-  }
+  //     bloque.append(elemento);
+  //   }
+  // }
 
-  cargarCitas(listaCitas: CitaID[]) {
-
+  cargarCitas(listaCitas: Cita[]) {
+    let dia = UsuariosService.fechaCitaActiva;
+    this.fecha = new Date(dia);
+    let fechaFinalHoy = this.fecha.getFullYear() + " " + (this.fecha.getMonth() + 1) + " " + this.fecha.getDate();
     //var bloque = (document.getElementById("lista_citas") as HTMLIonListElement);
     let bloque = $("#lista_citas");
 
     //Comprobamos que el bloque este vacio antes de emepzar la impresion de citas.
     bloque.empty();   
     
-    console.log("ESTO TENGO",listaCitas[0].citaId);
     console.log("TAMAÑO",listaCitas.length);
 
     for (const cita of listaCitas) {
-      let elemento = $('<ion-item/>', {
-        'html': `${cita.nombreCliente}  ${cita.presupuesto}  ${cita.fecha}`,//Revisar fecha
-        'id': cita.fecha,
-        'class': 'cita' //Para dar estilos a la cita ir a theme/variables.scss
+      let fechaCita = new Date(cita.fecha);
+      let fechaFinalCita = fechaCita.getFullYear() + " " + (fechaCita.getMonth() + 1) + " " + fechaCita.getDate();
+      console.log(fechaFinalHoy, " fecha hoy")
+      console.log(fechaFinalCita, " fecha cita");
+      
+      if (fechaFinalHoy === fechaFinalCita) {
+        let elemento = $('<ion-item/>', {
+          'html': `${cita.nombreCliente}  ${cita.presupuesto}  ${cita.fecha}`,//Revisar fecha
+          'id': cita.fecha,
+          'class': 'cita' //Para dar estilos a la cita ir a theme/variables.scss
+        }
+        );
+        this.usuario.listaCitas.push(cita);
+        bloque.append(elemento);
       }
-      );
-      //this.usuario.listaCitas.push(cita);
-
-      bloque.append(elemento);
-
-      console.log("ITERACION")
     }
 
     console.log("ME HAN LLAMAO")

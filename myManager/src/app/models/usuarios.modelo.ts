@@ -7,10 +7,10 @@ export class Usuario{
     claveUsuario: string;
     listaCitas: Cita[];
 
-    constructor(_emailUsuario: string, _claveUsuario:string, _listaCitas: Cita[] = []){
+    constructor(_emailUsuario: string, _claveUsuario:string){
         this.emailUsuario = _emailUsuario;
         this.claveUsuario = _claveUsuario;
-        this.listaCitas = _listaCitas;
+        this.listaCitas =[];
     }    
 
     //toString.

@@ -25,8 +25,8 @@ export class UsuariosService {
   }
 
   //Método que crea una cita, la devuelve, y la añade a citas.
-  static crearCita(_nombreUsuario: string, _nombreCliente: string, _presupuesto: number, _fecha: string): Cita{
-    const cita: Cita = new Cita(_nombreUsuario, _nombreCliente, _presupuesto, _fecha);
+  static crearCita(_nombreUsuario: string, _nombreCliente: string, _presupuesto: number, _fecha: string,_tamaño:string): Cita{
+    const cita: Cita = new Cita(_nombreUsuario, _nombreCliente, _presupuesto, _fecha,_tamaño);
     this.usuario.listaCitas.push(cita);
     return cita;
   }
