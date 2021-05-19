@@ -30,7 +30,7 @@ export class PrincipalPage implements OnInit {
     });
 
     //Esto tiene que ir en el home.
-    this.usuario = new Usuario(UsuariosService.usuarioAutorizacion.email, "1234");
+    this.usuario = new Usuario(UsuariosService.usuarioAutorizacion.email, "");
     UsuariosService.usuario = this.usuario;
   }
 
@@ -52,6 +52,8 @@ export class PrincipalPage implements OnInit {
     $("#dia").text(fecha.toDateString());
     //(document.getElementById("dia") as HTMLInputElement).textContent = dia.toDateString();    
     //this.cargarCita2();
+    this.firestore.getCitas3();
+
     this.firestore.getCitas2().subscribe(listaCitas => {
       console.log("Imprimiendo", listaCitas.length);
       this.cargarCitas(listaCitas as Cita[]);
