@@ -85,7 +85,7 @@ export class FirestoreService { //HECHO PASO 1: https://medium.com/angular-chile
       map(actions => actions.map(a => {
         const data = a.payload.doc.data() as Cita;
         const id = a.payload.doc.id;
-        return new CitaID(id, data.nombreUsuario, data.nombreCliente, data.presupuesto, data.fecha);
+        return new CitaID(id, data.nombreUsuario, data.nombreCliente, data.presupuesto, data.fecha, data.tamanio);
       }))
     );
     console.log("Imprimiendo desde firestoreservice en getcitas3", items); 

@@ -30,11 +30,7 @@ export class PrincipalPage implements OnInit {
       this.modificarCita(evt);
     });
 
-<<<<<<< HEAD
     //Guardamos el usuario con el que han logueado. Seria usuario logueado por GOOGLE
-=======
-    //Esto tiene que ir en el home.
->>>>>>> a4bf402e9710b9015d1ef8f44fb3ca9b1d3bfd27
     this.usuario = new Usuario(UsuariosService.usuarioAutorizacion.email, "");
     UsuariosService.usuario = this.usuario;
   }

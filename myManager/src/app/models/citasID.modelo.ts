@@ -5,13 +5,13 @@ export class CitaID extends Cita{
     //Atributos;
     citaId: string;//PK.
 
-    constructor(_citaId: string, _nombreUsuario: string, _nombreCliente:string, _presupuesto: number, _fecha: string){
-        super(_nombreUsuario, _nombreCliente, _presupuesto, _fecha);
+    constructor(_citaId: string, _nombreUsuario: string, _nombreCliente:string, _presupuesto: number, _fecha: string,_tamanio:string){
+        super(_nombreUsuario, _nombreCliente, _presupuesto, _fecha,_tamanio);
         this.citaId = _citaId;
     }
 
     //toString.
     public toString(): string{
-        return `${this.citaId} ${this.nombreUsuario} ${this.nombreCliente}  ${this.presupuesto}  ${this.fecha}` ;
+        return `${this.citaId} ${this.nombreUsuario} ${this.nombreCliente}  ${this.presupuesto}  ${this.fecha} ${this.tamanio}` ;
     }
 }
