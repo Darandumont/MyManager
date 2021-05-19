@@ -1,13 +1,19 @@
 //Clase que representa una cita en base de datos.
-export class Cita{
+export class Cita {
     //Atributos;
-    nombreUsuario: string;//FK, en base de datos que hace referencia a la PK de Usuarios.
+    nombreUsuario: string;
     nombreCliente: string;
     presupuesto: number;
+<<<<<<< HEAD
     fecha: string;//PK junto con nombre de usuario.
     tamanio: string; //Indica el tamaño del tato, pequeño, mediano, grande
 
     constructor(_nombreUsuario: string, _nombreCliente:string, _presupuesto: number, _fecha: string, _tamanio:string){
+=======
+    fecha: string;
+
+    constructor( _nombreUsuario: string, _nombreCliente:string, _presupuesto: number, _fecha: string){
+>>>>>>> a4bf402e9710b9015d1ef8f44fb3ca9b1d3bfd27
         this.nombreUsuario = _nombreUsuario;
         this.nombreCliente = _nombreCliente;
         this.presupuesto = _presupuesto;

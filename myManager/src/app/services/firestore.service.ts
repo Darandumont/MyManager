@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { AngularFireAuth } from '@angular/fire/auth';
 //import { CitasService } from './citas.service';
 import { Cita } from '../models/citas.modelo';
 import { Usuario } from '../models/usuarios.modelo';
 import * as firebase from 'firebase';
+import { map } from 'rxjs/operators';
+import { CitaID } from '../models/citasID.modelo';
 
 @Injectable({
   providedIn: 'root'
@@ -70,6 +72,24 @@ export class FirestoreService { //HECHO PASO 1: https://medium.com/angular-chile
   public getCitas2(){
     let currentUser = firebase.default.auth().currentUser;
     return this.firestore.collection('usuarios').doc(currentUser.uid).collection('citas').valueChanges();
+  }
+
+  public getCitas3(){
+    //TODO terminar para que recupere un array de citaid en vez de observables
+    let itemsCollection: AngularFirestoreCollection<Cita>;
+    let items: Observable<CitaID[]>;
+
+    let currentUser = firebase.default.auth().currentUser;
+    itemsCollection = this.firestore.collection('usuarios').doc(currentUser.uid).collection<Cita>('citas');
+    items = itemsCollection.snapshotChanges().pipe(
+      map(actions => actions.map(a => {
+        const data = a.payload.doc.data() as Cita;
+        const id = a.payload.doc.id;
+        return new CitaID(id, data.nombreUsuario, data.nombreCliente, data.presupuesto, data.fecha);
+      }))
+    );
+    console.log("Imprimiendo desde firestoreservice en getcitas3", items); 
+    
   }
 
   //Actualiza una cita
