@@ -1,8 +1,10 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as $ from 'jquery';
+//import { loadavg } from 'node:os';
 import { Timestamp } from 'rxjs/internal/operators/timestamp';
 import { Cita } from 'src/app/models/citas.modelo';
+import { CitaID } from 'src/app/models/citasID.modelo';
 import { Usuario } from 'src/app/models/usuarios.modelo';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { UsuariosService } from 'src/app/services/usuarios.service';
@@ -29,7 +31,6 @@ export class PrincipalPage implements OnInit {
       this.modificarCita(evt);
     });
 
-    //Esto tiene que ir en el home.
     this.usuario = new Usuario(UsuariosService.usuarioAutorizacion.email, "");
     UsuariosService.usuario = this.usuario;
   }
@@ -38,26 +39,19 @@ export class PrincipalPage implements OnInit {
     this.recargarPagina();
   }
 
-  // traerCitas(): void {
-  //   this.firestore.getCitas2().subscribe(listaCitas => {
-  //     console.log("Imprimiendo",listaCitas as Cita[])
-  //     this.cargarCitas(listaCitas as Cita[]);
-  //   })
-  // }
-
   recargarPagina() {
-    // this.traerCitas();
     let dia = UsuariosService.fechaCitaActiva;
     let fecha = new Date(dia);
     $("#dia").text(fecha.toDateString());
-    //(document.getElementById("dia") as HTMLInputElement).textContent = dia.toDateString();    
-    //this.cargarCita2();
-    this.firestore.getCitas3();
 
-    this.firestore.getCitas2().subscribe(listaCitas => {
-      console.log("Imprimiendo", listaCitas.length);
-      this.cargarCitas(listaCitas as Cita[]);
-    })
+     this.firestore.getCitas3();
+     this.cargarCitas(UsuariosService.listaCitasID);
+     console.log("LA LISTA", UsuariosService.listaCitasID);
+
+    // this.firestore.getCitas2().subscribe(listaCitas => {
+    //   console.log("Imprimiendo", listaCitas.length);
+    //   this.cargarCitas(listaCitas as Cita[]);
+    // })
   }
 
   //Metodo que accede a la ventana de crear cita
@@ -98,13 +92,16 @@ export class PrincipalPage implements OnInit {
     }
   }
 
-  cargarCitas(listaCitas: Cita[]) {
+  cargarCitas(listaCitas: CitaID[]) {
 
     //var bloque = (document.getElementById("lista_citas") as HTMLIonListElement);
     let bloque = $("#lista_citas");
 
     //Comprobamos que el bloque este vacio antes de emepzar la impresion de citas.
-    bloque.empty();
+    bloque.empty();   
+    
+    console.log("ESTO TENGO",listaCitas[0].citaId);
+    console.log("TAMAÑO",listaCitas.length);
 
     for (const cita of listaCitas) {
       let elemento = $('<ion-item/>', {
@@ -113,10 +110,14 @@ export class PrincipalPage implements OnInit {
         'class': 'cita' //Para dar estilos a la cita ir a theme/variables.scss
       }
       );
-      this.usuario.listaCitas.push(cita);
+      //this.usuario.listaCitas.push(cita);
 
       bloque.append(elemento);
+
+      console.log("ITERACION")
     }
+
+    console.log("ME HAN LLAMAO")
   }
 
   modificarCita(evt: Event) {

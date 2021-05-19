@@ -8,6 +8,7 @@ import { Usuario } from '../models/usuarios.modelo';
 import * as firebase from 'firebase';
 import { map } from 'rxjs/operators';
 import { CitaID } from '../models/citasID.modelo';
+import { UsuariosService } from './usuarios.service';
 
 @Injectable({
   providedIn: 'root'
@@ -75,9 +76,9 @@ export class FirestoreService { //HECHO PASO 1: https://medium.com/angular-chile
   }
 
   public getCitas3(){
-    //TODO terminar para que recupere un array de citaid en vez de observables
     let itemsCollection: AngularFirestoreCollection<Cita>;
     let items: Observable<CitaID[]>;
+    
 
     let currentUser = firebase.default.auth().currentUser;
     itemsCollection = this.firestore.collection('usuarios').doc(currentUser.uid).collection<Cita>('citas');
@@ -88,7 +89,12 @@ export class FirestoreService { //HECHO PASO 1: https://medium.com/angular-chile
         return new CitaID(id, data.nombreUsuario, data.nombreCliente, data.presupuesto, data.fecha);
       }))
     );
-    console.log("Imprimiendo desde firestoreservice en getcitas3", items); 
+
+
+    items.forEach(lista => lista.forEach(item =>{
+      //UsuariosService.listaCitasID.push(item);
+      UsuariosService.listaCitasID.push(new CitaID(item.citaId, item.nombreUsuario, item.nombreCliente, item.presupuesto, item.fecha));
+    }));
     
   }
 
