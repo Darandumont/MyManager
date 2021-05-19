@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UsuariosService } from 'src/app/services/usuarios.service';
-//import { Calendar } from '@ionic-native/calendar/ngx';
 import { Platform } from '@ionic/angular';
 
 @Component({
@@ -14,20 +13,16 @@ export class CalendarioPage implements OnInit {
 
   constructor(
     public router: Router,
-    public platform: Platform
-    /*public calendar: Calendar*/) { }
+    public platform: Platform) { }
 
   ngOnInit() {
-    this.calendario = document.getElementById("calendario") as HTMLInputElement;
-    let dia = new Date();
-    let mes = dia.getMonth() < 10? `0${dia.getMonth()+1}`: dia.getMonth()+1 ;
+    // this.calendario = document.getElementById("calendario") as HTMLInputElement;
+    // let dia = new Date();
+    // let mes = dia.getMonth() < 10? `0${dia.getMonth()+1}`: dia.getMonth()+1 ;
     
-    $('#calendario').val(`${dia.getFullYear()}-${mes as number}-${dia.getDate()}`);
+    // $('#calendario').val(`${dia.getFullYear()}-${mes as number}-${dia.getDate()}`);
     
-    // this.calendar.createCalendar('MyCalendar').then(
-    //   (msg) => { console.log("Correcto",msg); },
-    //   (err) => { console.log("Incorrecto",err); }
-    // );
+    
   }
 
   abrir() {
@@ -35,11 +30,17 @@ export class CalendarioPage implements OnInit {
     console.log(calendario.value);
     let fecha = new Date(calendario.value);
     UsuariosService.fechaCitaActiva = fecha.toString();
-    this.router.navigate(["principal"]);
 
+    calendario.addEventListener("click",navegar);
+   
 
-    //UsuariosService.fechaCitaActiva = (calendario.value) as Date;
 
   }
 
+  
+
+}
+
+function navegar(){
+  this.router.navigate(["principal"]);
 }

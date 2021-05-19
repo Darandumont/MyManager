@@ -11,6 +11,8 @@
   <br>
   <br>
   <br>
+  <br>
+  <br>
   <div>
     <form>
       <ion-grid>
@@ -20,7 +22,7 @@
           <ion-col size="10">
             <ion-item class="toma_datos">
               <ion-label position="floating">Nombre</ion-label>
-              <ion-input required type='text'id="nombreCita" clear-input></ion-input>
+              <ion-input required type='text' id="nombreCita" clear-input></ion-input>
             </ion-item>
           </ion-col>
           <ion-col size="1">
@@ -31,7 +33,7 @@
           </ion-col>
           <ion-col size="10">
             <ion-item class="toma_datos">
-              <ion-label position="floating" >Precio</ion-label>
+              <ion-label position="floating">Precio</ion-label>
               <ion-input required type='number' id="precioCita" clear-input></ion-input>
             </ion-item>
           </ion-col>
@@ -53,6 +55,32 @@
         <ion-row>
           <ion-col size="1">
           </ion-col>
+          <ion-col size="10">
+            <ion-item class="toma_datos">
+              <ion-label position="floating">Hora</ion-label>
+              <ion-input type="time" id="horaCita"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col size="1">
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col size="1">
+          </ion-col>
+          <ion-col size="10">
+            <ion-item class="toma_datos">
+              <select (change)="cambiarDuracion()" name="tamaño" id="tamañoTatto">
+                <option value="0">Tamaño...</option>
+                <option value="1">Pequeño</option>
+                <option value="2">Mediano</option>
+                <option value="3">Grande</option>
+              </select>
+              <ion-label id= duracionTatto type="text" style="margin-left: 40%;">
+                {{duracion}} hora/s
+              </ion-label>
+            </ion-item>
+          </ion-col>
           <ion-col size="1">
           </ion-col>
         </ion-row>
@@ -60,6 +88,6 @@
     </form>
   </div>
 </ion-content>
-<ion-footer> 
-    <ion-button type='large' (click)="crear()" expand="block">Crear</ion-button>
+<ion-footer>
+  <ion-button type='large' (click)="crear()" expand="block">Crear</ion-button>
 </ion-footer>

@@ -1,3 +1,4 @@
+import { Time } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as $ from 'jquery';
@@ -16,66 +17,83 @@ export class CrearCitaPage implements OnInit {
   private mensajeError: string = "Rellene todos los datos";
   private mensajeCorrecto: string = "Cita creada";
   private dia: string = (new Date()).toString();
+  public duracion: number = 0;
+  public hora;
+  public opciones;
+  public tamaño;
 
-  constructor( 
-    public componenteIonicService: ComponentesIonicService, 
+  constructor(
+    public componenteIonicService: ComponentesIonicService,
     public router: Router,
     public firestore: FirestoreService) { }
 
   ngOnInit() {
-    
-    $("#diaCita").text(this.dia);
-    //(document.getElementById("diaCita") as HTMLInputElement).textContent=this.dia.toDateString();
-    //Prueba random
-    let f: Date = new Date(this.dia);
-    console.log(f);
+
+    this.dia = UsuariosService.fechaCitaActiva;
+    let fecha = new Date(this.dia);
+    let formatoFecha = fecha.getDate() + "/" + (fecha.getMonth() + 1) + "/" + fecha.getFullYear();
+    $("#diaCita").text(formatoFecha);
+    this.opciones = (document.getElementById("tamañoTatto") as HTMLSelectElement);
+    this.opciones.options[0].disabled = true;
+    console.log(this.opciones.value);
+
   }
 
-  // crear(usuario:Usuario){
-  //   var nombre = (document.getElementById("nombreCita") as HTMLInputElement)
-  //   var precio = ((document.getElementById("precioCita") as HTMLInputElement));
-  //   var valido:boolean = true;
-    
-  //   if(nombre.value != "" && precio.value!= ""){
-  //     this.mostrarToast(this.mensajeCorrecto,valido);
-  //     var precioFianl = (precio as any )as number;
-  //     var citaNueva = new Cita(usuario.nombreUsuario,nombre.textContent,precioFianl,this.dia,(usuario.listaCitas.length)+1);
-  //     usuario.listaCitas.push(citaNueva);
-  //     //SE AÑADE LA CITA A LA BASE DE DATOS Y SE LE AÑADE AL USUARIO
-  //   }else{
-  //     valido = false;
-  //     this.mostrarToast(this.mensajeError,valido);
-  //   }
-  // }
+  cambiarDuracion() {
+    switch (this.opciones.value) {
+      case "1":
+        this.duracion = 1;
+        this.tamaño = "Pequeño";
+        break;
+      case "2":
+        this.duracion = 4;
+        this.tamaño = "Mediano";
+        break;
+      case "3":
+        this.duracion = 6;
+        this.tamaño = "Grande";
+        break;
+    }
+  }
 
-  crear(){
+  crear() {
     let nombre: JQuery<HTMLElement> = $("#nombreCita");
     let precio: JQuery<HTMLElement> = $("#precioCita");
-    var valido:boolean = true;
+    var valido: boolean = true;
+    this.hora = (document.getElementById("horaCita") as HTMLInputElement);
+    let horaFinal:string[] = this.hora.value.split(":");
+
+    console.log("Correo: ",UsuariosService.usuario.emailUsuario.toString());
     
-    if(nombre.val() != "" && precio.val() != ""){
-      this.mostrarToast(this.mensajeCorrecto,valido);
+
+    if (nombre.val() != "" && precio.val() != "" && this.hora.value != "" && this.opciones.value != 0) {
+      this.mostrarToast(this.mensajeCorrecto, valido);
+
+      this.dia = UsuariosService.fechaCitaActiva;
+      let fecha = new Date(this.dia);
+      let fechaFinal: Date = new Date(fecha.getFullYear(),fecha.getMonth(),fecha.getDate(),((horaFinal[0])as any)as number,((horaFinal[1])as any)as number);
       let precioFinal = precio.val() as number;
-      let citaNueva = new Cita(UsuariosService.usuario.emailUsuario, nombre.val().toString(),precioFinal,this.dia);
+      let citaNueva = new Cita(UsuariosService.usuario.emailUsuario, nombre.val().toString(), precioFinal, fechaFinal.toUTCString(), this.tamaño);
       UsuariosService.usuario.listaCitas.push(citaNueva);
       //SE AÑADE LA CITA A LA BASE DE DATOS Y SE LE AÑADE AL USUARIO
       this.firestore.agregarCita(citaNueva)
-        .then(()=>{
+        .then(() => {
           console.log("Cita añadida");
         })
-        .catch((err)=>{
+        .catch((err) => {
           console.log("Error al añadir la cita", err);
         });
 
       //Volvemos a la pantalla anterior.
       this.retrocederPaginaAnterior(nombre, precio);
-    }else{
+      
+    } else {
       valido = false;
-      this.mostrarToast(this.mensajeError,valido);
+      this.mostrarToast(this.mensajeError, valido);
     }
   }
 
-  private mostrarToast(mensaje: string, valido: boolean): void{
+  private mostrarToast(mensaje: string, valido: boolean): void {
     this.componenteIonicService.presentToast(mensaje, valido);
   }
 
