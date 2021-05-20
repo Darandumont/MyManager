@@ -9,11 +9,15 @@ import * as firebase from 'firebase';
 import { map } from 'rxjs/operators';
 import { CitaID } from '../models/citasID.modelo';
 import { UsuariosService } from './usuarios.service';
+import { AngularFireList, AngularFireObject } from '@angular/fire/database';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FirestoreService { //HECHO PASO 1: https://medium.com/angular-chile/angular-6-y-firestore-b7f270adcc96
+
+  public listaCitasRef: AngularFireList<any>;
+  public citaRef: AngularFireObject<any>;
 
   private static CITAS: string = "citas";
   private static USUARIOS: string = "usuarios";

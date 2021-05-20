@@ -16,7 +16,6 @@ import { UsuariosService } from 'src/app/services/usuarios.service';
   styleUrls: ['./principal.page.scss'],
 })
 export class PrincipalPage implements OnInit {
-  usuario: Usuario;
   listaCitas: Cita[];
   fecha: Date;
 
@@ -33,8 +32,7 @@ export class PrincipalPage implements OnInit {
     });
 
     //Guardamos el usuario con el que han logueado. Seria usuario logueado por GOOGLE
-    this.usuario = new Usuario(UsuariosService.usuarioAutorizacion.email, "");
-    UsuariosService.usuario = this.usuario;
+    UsuariosService.usuario = new Usuario(UsuariosService.usuarioAutorizacion.email, "");
   }
 
   ionViewWillEnter() {
@@ -62,55 +60,19 @@ export class PrincipalPage implements OnInit {
     this.router.navigate(['crear-cita']);
   }
 
-  // cargarCita(usuario: Usuario) {
-  //   let bloque = $("#lista_citas");
-
-  //   for (const cita of usuario.listaCitas) {
-
-  //     let elemento = $('<ion-item/>', {
-  //       'html': cita.toString(),
-  //       'id': cita.fecha,
-  //       'class': 'cita' //Para dar estilos a la cita ir a theme/variables.scss
-
-  //     });
-  //     bloque.append(elemento);
-  //   }
-  // }
-
-  // cargarCita2() {
-
-  //   //var bloque = (document.getElementById("lista_citas") as HTMLIonListElement);
-  //   let bloque = $("#lista_citas");
-
-  //   for (const cita of this.listaCitas) {
-
-  //     let elemento = $('<ion-item/>', {
-  //       'html': cita.toString(),
-  //       'id': cita.fecha,
-  //       'class': 'cita' //Para dar estilos a la cita ir a theme/variables.scss
-  //     });
-
-  //     bloque.append(elemento);
-  //   }
-  // }
-
   cargarCitas(listaCitas: Cita[]) {
     let dia = UsuariosService.fechaCitaActiva;
     this.fecha = new Date(dia);
     let fechaFinalHoy = this.fecha.getFullYear() + " " + (this.fecha.getMonth() + 1) + " " + this.fecha.getDate();
-    //var bloque = (document.getElementById("lista_citas") as HTMLIonListElement);
     let bloque = $("#lista_citas");
 
     //Comprobamos que el bloque este vacio antes de emepzar la impresion de citas.
     bloque.empty();   
     
-    console.log("TAMAÑO",listaCitas.length);
 
     for (const cita of listaCitas) {
       let fechaCita = new Date(cita.fecha);
       let fechaFinalCita = fechaCita.getFullYear() + " " + (fechaCita.getMonth() + 1) + " " + fechaCita.getDate();
-      console.log(fechaFinalHoy, " fecha hoy")
-      console.log(fechaFinalCita, " fecha cita");
       
       if (fechaFinalHoy === fechaFinalCita) {
         let elemento = $('<ion-item/>', {
@@ -119,12 +81,11 @@ export class PrincipalPage implements OnInit {
           'class': 'cita' //Para dar estilos a la cita ir a theme/variables.scss
         }
         );
-        this.usuario.listaCitas.push(cita);
+        UsuariosService.usuario.listaCitas.push(cita);
         bloque.append(elemento);
       }
     }
 
-    console.log("ME HAN LLAMAO")
   }
 
   modificarCita(evt: Event) {
@@ -132,7 +93,7 @@ export class PrincipalPage implements OnInit {
     let elemento = (evt.target) as HTMLIonItemElement;
     UsuariosService.fechaCitaActiva = elemento.id;
 
-    UsuariosService.cita = this.usuario.listaCitas.find(cita => cita.fecha == elemento.id);
+    UsuariosService.cita = UsuariosService.usuario.listaCitas.find(cita => cita.fecha == elemento.id);
 
     this.router.navigate(['modificar-cita']);
   }
