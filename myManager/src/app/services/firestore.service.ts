@@ -67,7 +67,6 @@ export class FirestoreService { //HECHO PASO 1: https://medium.com/angular-chile
     return new Promise<any>((resolve, reject) => {
       let currentUser = firebase.default.auth().currentUser;
       this.firestore.collection('usuarios').doc(currentUser.uid)
-<<<<<<< HEAD
         .collection('citas').add({
           nombreUsuario: _cita.nombreUsuario,
           nombreCliente: _cita.nombreCliente,
@@ -79,19 +78,6 @@ export class FirestoreService { //HECHO PASO 1: https://medium.com/angular-chile
           res => resolve(res),
           err => reject(err)
         )
-=======
-      .collection('citas').add({
-        nombreUsuario: _cita.nombreUsuario,
-        nombreCliente: _cita.nombreCliente,
-        presupuesto: _cita.presupuesto,
-        fecha: _cita.fecha,
-        tamanio: _cita.tamanio
-      })
-      .then(
-        res => resolve(res),
-        err => reject(err)
-      )
->>>>>>> ef508754f7289737af235e4ecb339553e7864941
     })
     // return this.firestore.collection(FirestoreService.TABLA_CITAS).add({
     //  'idCita': _cita.idCita,
@@ -142,12 +128,8 @@ export class FirestoreService { //HECHO PASO 1: https://medium.com/angular-chile
     return lista;
   }
 
-<<<<<<< HEAD
   public getCitas3() {
     //TODO terminar para que recupere un array de citaid en vez de observables
-=======
-  public getCitas3(){
->>>>>>> ef508754f7289737af235e4ecb339553e7864941
     let itemsCollection: AngularFirestoreCollection<Cita>;
     let items: Observable<CitaID[]>;
     
@@ -161,17 +143,12 @@ export class FirestoreService { //HECHO PASO 1: https://medium.com/angular-chile
         return new CitaID(id, data.nombreUsuario, data.nombreCliente, data.presupuesto, data.fecha, data.tamanio);
       }))
     );
-<<<<<<< HEAD
-    console.log("Imprimiendo desde firestoreservice en getcitas3", items);
-
-=======
 
     UsuariosService.listaCitasID = [];
     items.forEach(lista => lista.forEach(item =>{
       UsuariosService.listaCitasID.push(item);
     }));
     
->>>>>>> ef508754f7289737af235e4ecb339553e7864941
   }
 
   //Actualiza una cita

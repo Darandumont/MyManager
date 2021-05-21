@@ -41,7 +41,6 @@ export class PrincipalPage implements OnInit {
 
   recargarPagina() {
     let dia = UsuariosService.fechaCitaActiva;
-<<<<<<< HEAD
     this.fecha = new Date(dia);
     $("#dia").text(this.fecha.toDateString());
 
@@ -49,20 +48,6 @@ export class PrincipalPage implements OnInit {
       console.log("Imprimiendo", listaCitas.length);
       this.cargarCitas(listaCitas as Cita[]);
     })
-=======
-
-    let fecha = new Date(dia);
-    $("#dia").text(fecha.toDateString());
-
-     this.firestore.getCitas3();
-     this.cargarCitas(UsuariosService.listaCitasID);
-     console.log("LA LISTA", UsuariosService.listaCitasID);
-
-    // this.firestore.getCitas2().subscribe(listaCitas => {
-    //   console.log("Imprimiendo", listaCitas.length);
-    //   this.cargarCitas(listaCitas as Cita[]);
-    // })
->>>>>>> ef508754f7289737af235e4ecb339553e7864941
   }
 
   //Metodo que accede a la ventana de crear cita
@@ -83,13 +68,9 @@ export class PrincipalPage implements OnInit {
     for (const cita of listaCitas) {
       let fechaCita = new Date(cita.fecha);
       let fechaFinalCita = fechaCita.getFullYear() + " " + (fechaCita.getMonth() + 1) + " " + fechaCita.getDate();
-<<<<<<< HEAD
 
       let horaFinal = this.formatoHora(fechaCita);
       let formatoFecha = fechaCita.getDate() + "/" + (fechaCita.getMonth() + 1) + "/" + fechaCita.getFullYear()
-=======
-      
->>>>>>> ef508754f7289737af235e4ecb339553e7864941
       if (fechaFinalHoy === fechaFinalCita) {
         let elemento = $('<ion-item/>', {
           'html': `Nombre: ${cita.nombreCliente},  Precio: ${cita.presupuesto}€,  Hora/Fecha: ${horaFinal}  ${formatoFecha} `,
