@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Cita } from 'src/app/models/citas.modelo';
-import { Usuario } from 'src/app/models/usuarios.modelo';
 import { ComponentesIonicService } from 'src/app/services/componentes-ionic.service';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { UsuariosService } from 'src/app/services/usuarios.service';
@@ -14,27 +13,114 @@ import * as $ from 'jquery';
 })
 export class ModificarCitaPage implements OnInit {
   cita: Cita;
+  public opciones;
+  public nombre;
+  public precio;
+  public hora;
+  public fecha;
+  public duracion;
+  public tamaño;
+
   constructor(public componenteIonicService: ComponentesIonicService,
     public router: Router,
     public firestore: FirestoreService) { }
 
   ngOnInit() {
-    console.log(UsuariosService.fechaCitaActiva);
-    let cita = UsuariosService.cita;
-    
-    $('#nombreCita').val(cita.nombreCliente);
-    $('#precioCita').val(cita.presupuesto);   
-  
+    this.cargarDatos();
+
   }
+
+  cargarDatos() {
+    console.log(UsuariosService.cita.fecha);
+    let fechaRecibida = new Date(UsuariosService.cita.fecha);
+    console.log(fechaRecibida);
+
+
+    this.nombre = (document.getElementById("nombreCita") as HTMLInputElement);
+    this.precio = (document.getElementById("precioCita") as HTMLInputElement);
+    this.tamaño = (UsuariosService.cita.tamanio);
+    this.hora = (document.getElementById("horaCita") as HTMLInputElement);
+    this.fecha = (document.getElementById("diaCita") as HTMLLabelElement);
+
+
+    this.opciones = (document.getElementById("tamañoTatto") as HTMLSelectElement);
+    this.opciones.options[0].disabled = true;
+
+    let dia = UsuariosService.fechaCitaActiva;
+    let fechaCreada = new Date(dia);
+    let formatoFecha = fechaCreada.getDate() + "/" + (fechaCreada.getMonth() + 1) + "/" + fechaCreada.getFullYear();
+    this.fecha.innerHTML = formatoFecha;
+
+
+    this.cambiarValor();
+    this.nombre.value = UsuariosService.cita.nombreCliente;
+    this.precio.value = UsuariosService.cita.presupuesto + "";
+  }
+
+  validarDatos() {
+    return this.nombre.value != "" && this.precio.value != "" && (this.hora.value != undefined && this.hora.value != "") && this.opciones.value != 0;
+  }
+
+  cambiarValor() {
+    switch (this.tamaño) {
+      case "Pequeño":
+        this.opciones.value = 1;
+        break;
+      case "Mediano":
+        this.opciones.value = 2;
+        break;
+      case "Grande":
+        this.opciones.value = 3;
+        break;
+    }
+  }
+
+  cambiarDuracion() {
+    switch (this.opciones.value) {
+      case "1":
+        this.duracion = 1;
+        this.tamaño = "Pequeño";
+        break;
+      case "2":
+        this.duracion = 4;
+        this.tamaño = "Mediano";
+        break;
+      case "3":
+        this.duracion = 6;
+        this.tamaño = "Grande";
+        break;
+    }
+  }
+
+  borrar() {
+      this.componenteIonicService.presentModalBorrar();
+      this.router.navigate(["principal"]);
+    }
 
   modificar() {
-    this.cita.nombreCliente = (document.getElementById("nombreCita") as HTMLInputElement).value;
-    this.cita.presupuesto = ((document.getElementById("precioCita") as HTMLInputElement).value as any) as number;
-    console.log("Objetto modificado");
+    
+    if (this.validarDatos()) {
+      console.log(this.hora.value);
+      let dia = UsuariosService.fechaCitaActiva;
+      let fecha = new Date(dia);
+      let horaFinal = this.hora.value.split(":")
+      let fechaFinal: Date = new Date(fecha.getFullYear(), fecha.getMonth(), fecha.getDate(), ((horaFinal[0]) as any) as number, ((horaFinal[1]) as any) as number);
+      let nuevaCita: Cita = new Cita(UsuariosService.cita.nombreUsuario, this.nombre.value, this.precio.value, fechaFinal+"", this.tamaño);
+      this.firestore.modificarCita(UsuariosService.cita, nuevaCita);
+      
+      this.mostrarToast("Cita modificada",true);
+      this.router.navigate(["principal"])
 
-    let idCita :string = (this.cita.fecha as any)as string;
-    this.firestore.updateCita(idCita,this.cita);
-    UsuariosService.cita = this.cita;
-    this.router.navigate(['principal']);
+    } else {
+      this.mostrarToast("Rellene todos los campos",false);
+    }
+
   }
+
+  private mostrarToast(mensaje: string, valido: boolean): void {
+    this.componenteIonicService.presentToast(mensaje, valido);
+    
+  }
+
+
 }

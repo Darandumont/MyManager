@@ -8,6 +8,7 @@ import { Usuario } from '../models/usuarios.modelo';
 import * as firebase from 'firebase';
 import { map } from 'rxjs/operators';
 import { CitaID } from '../models/citasID.modelo';
+import { FirebaseApp } from '@angular/fire';
 
 @Injectable({
   providedIn: 'root'
@@ -26,21 +27,53 @@ export class FirestoreService { //HECHO PASO 1: https://medium.com/angular-chile
   //***********************************************************************************************************************
   //CITAS:
 
+  public borrar(_cita: Cita, id: string) {
+    let currentUser = firebase.default.auth().currentUser;
+
+    this.firestore.collection('usuarios').doc(currentUser.uid)
+      .collection('citas').doc(id).delete().then(() => {
+        console.log("Cita Borrada!");
+      }).catch((error) => {
+        console.error("Error al borrar cita ", error);
+      });
+  }
+
+  public modificar(_cita: Cita, id: string, nuevoObj: Cita) {
+    let currentUser = firebase.default.auth().currentUser;
+    let cita = this.firestore.collection("usuarios").doc(currentUser.uid)
+      .collection("citas").doc(id);
+
+    return cita.update({
+      nombreUsuario: nuevoObj.nombreUsuario,
+      nombreCliente: nuevoObj.nombreCliente,
+      presupuesto: nuevoObj.presupuesto,
+      fecha: nuevoObj.fecha,
+      tamanio:nuevoObj.tamanio
+    }).then((function () {
+      console.log("CITA MODIFICADA");
+      
+    })).catch((function(error){
+      console.log("ERROR AL MODIFICAR LA CITA");
+    }));
+  }
+
+
   //Agregar una cita
-  public agregarCita(_cita: Cita){
+  public agregarCita(_cita: Cita) {
     return new Promise<any>((resolve, reject) => {
       let currentUser = firebase.default.auth().currentUser;
       this.firestore.collection('usuarios').doc(currentUser.uid)
-      .collection('citas').add({
-        nombreUsuario: _cita.nombreUsuario,
-        nombreCliente: _cita.nombreCliente,
-        presupuesto: _cita.presupuesto,
-        fecha: _cita.fecha
-      })
-      .then(
-        res => resolve(res),
-        err => reject(err)
-      )
+        .collection('citas').add({
+          nombreUsuario: _cita.nombreUsuario,
+          nombreCliente: _cita.nombreCliente,
+          presupuesto: _cita.presupuesto,
+          fecha: _cita.fecha,
+          tamanio: _cita.tamanio
+        })
+        .then(
+          res => resolve(res),
+          err => reject(err)
+        )
     })
     // return this.firestore.collection(FirestoreService.TABLA_CITAS).add({
     //  'idCita': _cita.idCita,
@@ -52,29 +85,46 @@ export class FirestoreService { //HECHO PASO 1: https://medium.com/angular-chile
   }
 
   //Obtiene una cita
-  public getCita(_idCita: number) {
-    return this.firestore.collection(FirestoreService.CITAS).doc(((_idCita as any) as string)).snapshotChanges();
-  }
+  public borrarCita(miCita: Cita) {
+    let currentUser = firebase.default.auth().currentUser;
+    this.firestore.collection("usuarios").doc(currentUser.uid).collection("citas").get().toPromise().then((lista) => {
+      lista.forEach((doc) => {
+        let cita = doc.data();
 
-  //Obtiene todas las citas
-  public getCitas() {
-    return new Promise<any>((resolve, reject) => {
-      let currentUser = firebase.default.auth().currentUser;
-      FirestoreService.snapshotChangesSubscription = this.firestore.collection('usuarios').doc(currentUser.uid)
-      .collection('citas').snapshotChanges()
-      .subscribe(snapshots => {
-        resolve(snapshots);
+        if (miCita.fecha === cita.fecha) {
+          this.borrar(miCita, doc.id);
+          console.log("BORRADO");
+
+        }
       })
     })
-    //return this.firestore.collection(FirestoreService.CITAS).snapshotChanges();
   }
 
-  public getCitas2(){
+  public modificarCita(miCita: Cita, nuevaCita:Cita){
     let currentUser = firebase.default.auth().currentUser;
-    return this.firestore.collection('usuarios').doc(currentUser.uid).collection('citas').valueChanges();
+    this.firestore.collection("usuarios").doc(currentUser.uid).collection("citas").get().toPromise().then((lista) => {
+      lista.forEach((doc) => {
+        let cita = doc.data();
+
+        if (miCita.fecha === cita.fecha) {
+          console.log(doc.id);
+          
+          this.modificar(miCita, doc.id,nuevaCita);
+
+          console.log("BORRADO");
+
+        }
+      })
+    })
   }
 
-  public getCitas3(){
+  public getCitas2() {
+    let currentUser = firebase.default.auth().currentUser;
+    let lista = this.firestore.collection('usuarios').doc(currentUser.uid).collection('citas');
+    return lista;
+  }
+
+  public getCitas3() {
     //TODO terminar para que recupere un array de citaid en vez de observables
     let itemsCollection: AngularFirestoreCollection<Cita>;
     let items: Observable<CitaID[]>;
@@ -88,8 +138,8 @@ export class FirestoreService { //HECHO PASO 1: https://medium.com/angular-chile
         return new CitaID(id, data.nombreUsuario, data.nombreCliente, data.presupuesto, data.fecha, data.tamanio);
       }))
     );
-    console.log("Imprimiendo desde firestoreservice en getcitas3", items); 
-    
+    console.log("Imprimiendo desde firestoreservice en getcitas3", items);
+
   }
 
   //Actualiza una cita
@@ -101,9 +151,9 @@ export class FirestoreService { //HECHO PASO 1: https://medium.com/angular-chile
   //USUARIOS:
 
   //Agregar un usuario
-  public agregarUsuario(_usuario: Usuario){
+  public agregarUsuario(_usuario: Usuario) {
     return this.firestore.collection(FirestoreService.USUARIOS).add(_usuario);
-  }  
+  }
 
   //Obtiene un usuario
   public getUsuario(_nombreUsuario: string) {

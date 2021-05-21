@@ -35,7 +35,6 @@ export class CrearCitaPage implements OnInit {
     $("#diaCita").text(formatoFecha);
     this.opciones = (document.getElementById("tamañoTatto") as HTMLSelectElement);
     this.opciones.options[0].disabled = true;
-    console.log(this.opciones.value);
 
   }
 
@@ -73,7 +72,7 @@ export class CrearCitaPage implements OnInit {
       let fecha = new Date(this.dia);
       let fechaFinal: Date = new Date(fecha.getFullYear(),fecha.getMonth(),fecha.getDate(),((horaFinal[0])as any)as number,((horaFinal[1])as any)as number);
       let precioFinal = precio.val() as number;
-      let citaNueva = new Cita(UsuariosService.usuario.emailUsuario, nombre.val().toString(), precioFinal, fechaFinal.toUTCString(), this.tamaño);
+      let citaNueva = new Cita(UsuariosService.usuario.emailUsuario, nombre.val().toString(), precioFinal, fechaFinal+"", this.tamaño);
       UsuariosService.usuario.listaCitas.push(citaNueva);
       //SE AÑADE LA CITA A LA BASE DE DATOS Y SE LE AÑADE AL USUARIO
       this.firestore.agregarCita(citaNueva)

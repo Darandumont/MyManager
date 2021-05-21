@@ -51,11 +51,8 @@ export class PrincipalPage implements OnInit {
     let dia = UsuariosService.fechaCitaActiva;
     this.fecha = new Date(dia);
     $("#dia").text(this.fecha.toDateString());
-    //(document.getElementById("dia") as HTMLInputElement).textContent = dia.toDateString();    
-    //this.cargarCita2();
-    this.firestore.getCitas3();
 
-    this.firestore.getCitas2().subscribe(listaCitas => {
+    this.firestore.getCitas2().valueChanges().subscribe(listaCitas => {
       console.log("Imprimiendo", listaCitas.length);
       this.cargarCitas(listaCitas as Cita[]);
     })
@@ -111,12 +108,12 @@ export class PrincipalPage implements OnInit {
     for (const cita of listaCitas) {
       let fechaCita = new Date(cita.fecha);
       let fechaFinalCita = fechaCita.getFullYear() + " " + (fechaCita.getMonth() + 1) + " " + fechaCita.getDate();
-      console.log(fechaFinalHoy, " fecha hoy")
-      console.log(fechaFinalCita, " fecha cita");
-      
+
+      let horaFinal = this.formatoHora(fechaCita);
+      let formatoFecha = fechaCita.getDate() + "/" + (fechaCita.getMonth() + 1) + "/" + fechaCita.getFullYear()
       if (fechaFinalHoy === fechaFinalCita) {
         let elemento = $('<ion-item/>', {
-          'html': `${cita.nombreCliente}  ${cita.presupuesto}  ${cita.fecha}`,//Revisar fecha
+          'html': `Nombre: ${cita.nombreCliente},  Precio: ${cita.presupuesto}€,  Hora/Fecha: ${horaFinal}  ${formatoFecha} `,
           'id': cita.fecha,
           'class': 'cita' //Para dar estilos a la cita ir a theme/variables.scss
         }
@@ -124,7 +121,6 @@ export class PrincipalPage implements OnInit {
         this.usuario.listaCitas.push(cita);
         bloque.append(elemento);
       }
-
     }
   }
 
@@ -136,6 +132,23 @@ export class PrincipalPage implements OnInit {
     UsuariosService.cita = this.usuario.listaCitas.find(cita => cita.fecha == elemento.id);
 
     this.router.navigate(['modificar-cita']);
+  }
+
+  formatoHora(fechaCita: Date): string {
+    let formatoFecha = "";
+
+    if(fechaCita.getHours()<10){
+      formatoFecha+="0"+fechaCita.getHours()+"/";
+    }else{
+      formatoFecha+=fechaCita.getHours()+"/";
+    }
+
+    if(fechaCita.getMinutes()<10){
+      formatoFecha+="0"+fechaCita.getMinutes();
+    }else{
+      formatoFecha+=fechaCita.getMinutes();
+    }
+    return formatoFecha;
   }
 }
 

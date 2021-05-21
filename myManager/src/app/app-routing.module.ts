@@ -41,6 +41,10 @@ const routes: Routes = [
   {
     path: 'calendario',
     loadChildren: () => import('./pages/calendario/calendario.module').then( m => m.CalendarioPageModule)
+  },
+  {
+    path: 'confirmar-borrar',
+    loadChildren: () => import('./pages/modals/confirmar-borrar/confirmar-borrar.module').then( m => m.ConfirmarBorrarPageModule)
   }
 
 ];
