@@ -10,17 +10,14 @@ const routes: Routes = [
     path: '',
     redirectTo: 'home',
     pathMatch: 'full'
-  },  {
+  },
+  {
     path: 'registrar-usuario',
     loadChildren: () => import('./pages/registrar-usuario/registrar-usuario.module').then( m => m.RegistrarUsuarioPageModule)
   },
   {
     path: 'administracion',
     loadChildren: () => import('./pages/administracion/administracion.module').then( m => m.AdministracionPageModule)
-  },
-  {
-    path: 'principal',
-    loadChildren: () => import('./pages/principal/principal.module').then( m => m.PrincipalPageModule)
   },
   {
     path: 'crear-cita',
@@ -36,15 +33,19 @@ const routes: Routes = [
   },
   {
     path: 'calendario',
-    loadChildren: () => import('./page/calendario/calendario.module').then( m => m.CalendarioPageModule)
-  },
-  {
-    path: 'calendario',
     loadChildren: () => import('./pages/calendario/calendario.module').then( m => m.CalendarioPageModule)
   },
   {
     path: 'confirmar-borrar',
     loadChildren: () => import('./pages/modals/confirmar-borrar/confirmar-borrar.module').then( m => m.ConfirmarBorrarPageModule)
+  },
+  {
+    path: 'acceso-fecha',
+    loadChildren: () => import('./pages/acceso-fecha/acceso-fecha.module').then( m => m.AccesoFechaPageModule)
+  },
+  {
+    path: 'principal',
+    loadChildren: () => import('./pages/principal/principal.module').then( m => m.PrincipalPageModule)
   }
 
 ];

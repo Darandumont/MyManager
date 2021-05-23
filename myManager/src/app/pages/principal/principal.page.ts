@@ -1,14 +1,7 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import * as $ from 'jquery';
-//import { loadavg } from 'node:os';
-import { Timestamp } from 'rxjs/internal/operators/timestamp';
-import { Cita } from 'src/app/models/citas.modelo';
-import { CitaID } from 'src/app/models/citasID.modelo';
-import { Usuario } from 'src/app/models/usuarios.modelo';
-import { FirestoreService } from 'src/app/services/firestore.service';
-import { UsuariosService } from 'src/app/services/usuarios.service';
-
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ModalController } from '@ionic/angular';
+import { CalendarComponent } from 'ionic2-calendar';
+import { CalendarPage } from '../modals/calendar/calendar.page';
 
 @Component({
   selector: 'app-principal',
@@ -16,103 +9,108 @@ import { UsuariosService } from 'src/app/services/usuarios.service';
   styleUrls: ['./principal.page.scss'],
 })
 export class PrincipalPage implements OnInit {
-  listaCitas: Cita[];
-  fecha: Date;
 
-  constructor(
-    public router: Router,
-    public firestore: FirestoreService) { }
+  eventSource = [];
+  viewTitle: string;
 
-  //TO DO
-  ngOnInit() {
-    //evt: JQuery.Event valor a pasar por parametro en caso de error
+  calendar = {
+    mode: 'month',
+    currentDate: new Date()
+  };
 
-    $('#lista_citas').on('click', 'ion-item', (evt: Event) => {
-      this.modificarCita(evt);
-    });
+  @ViewChild(CalendarComponent) myCal: CalendarComponent;
 
-    //Guardamos el usuario con el que han logueado. Seria usuario logueado por GOOGLE
-    UsuariosService.usuario = new Usuario(UsuariosService.usuarioAutorizacion.email, "");
+  constructor(private modalCtrl: ModalController) { }
+
+  ngOnInit() { }
+
+  next() {
+    this.myCal.slideNext();
   }
 
-  ionViewWillEnter() {
-    this.recargarPagina();
+  back() {
+    this.myCal.slidePrev();
   }
 
-  recargarPagina() {
-    let dia = UsuariosService.fechaCitaActiva;
-    this.fecha = new Date(dia);
-    $("#dia").text(this.fecha.toDateString());
-
-    this.firestore.getCitas2().valueChanges().subscribe(listaCitas => {
-      console.log("Imprimiendo", listaCitas.length);
-      this.cargarCitas(listaCitas as Cita[]);
-    })
+  onViewTitleChanged(title) {
+    this.viewTitle = title;
   }
 
-  //Metodo que accede a la ventana de crear cita
-  crearCita(evt: Event) {
-    this.router.navigate(['crear-cita']);
-  }
-
-  cargarCitas(listaCitas: Cita[]) {
-    let dia = UsuariosService.fechaCitaActiva;
-    this.fecha = new Date(dia);
-    let fechaFinalHoy = this.fecha.getFullYear() + " " + (this.fecha.getMonth() + 1) + " " + this.fecha.getDate();
-    let bloque = $("#lista_citas");
-
-    //Comprobamos que el bloque este vacio antes de emepzar la impresion de citas.
-    bloque.empty();   
-    
-
-    for (const cita of listaCitas) {
-      let fechaCita = new Date(cita.fecha);
-      let fechaFinalCita = fechaCita.getFullYear() + " " + (fechaCita.getMonth() + 1) + " " + fechaCita.getDate();
-
-      let horaFinal = this.formatoHora(fechaCita);
-      let formatoFecha = fechaCita.getDate() + "/" + (fechaCita.getMonth() + 1) + "/" + fechaCita.getFullYear()
-      if (fechaFinalHoy === fechaFinalCita) {
-        let elemento = $('<ion-item/>', {
-          'html': `Nombre: ${cita.nombreCliente},  Precio: ${cita.presupuesto}€,  Hora/Fecha: ${horaFinal}  ${formatoFecha} `,
-          'id': cita.fecha,
-          'class': 'cita' //Para dar estilos a la cita ir a theme/variables.scss
+  createRandomEvents() {
+    var events = [];
+    for (var i = 0; i < 50; i += 1) {
+      var date = new Date();
+      var eventType = Math.floor(Math.random() * 2);
+      var startDay = Math.floor(Math.random() * 90) - 45;
+      var endDay = Math.floor(Math.random() * 2) + startDay;
+      var startTime;
+      var endTime;
+      if (eventType === 0) {
+        startTime = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + startDay));
+        if (endDay === startDay) {
+          endDay += 1;
         }
-        );
-        UsuariosService.usuario.listaCitas.push(cita);
-        bloque.append(elemento);
+        endTime = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + endDay));
+        events.push({
+          title: 'All Day - ' + i,
+          startTime: startTime,
+          endTime: endTime,
+          allDay: true
+        });
+      } else {
+        var startMinute = Math.floor(Math.random() * 24 * 60);
+        var endMinute = Math.floor(Math.random() * 180) + startMinute;
+        startTime = new Date(date.getFullYear(), date.getMonth(), date.getDate() + startDay, 0, date.getMinutes() + startMinute);
+        endTime = new Date(date.getFullYear(), date.getMonth(), date.getDate() + endDay, 0, date.getMinutes() + endMinute);
+        events.push({
+          title: 'Event - ' + i,
+          startTime: startTime,
+          endTime: endTime,
+          allDay: false
+        });
       }
     }
-
+    this.eventSource = events;
   }
 
-  modificarCita(evt: Event) {
-
-    let elemento = (evt.target) as HTMLIonItemElement;
-    UsuariosService.fechaCitaActiva = elemento.id;
-
-    UsuariosService.cita = UsuariosService.usuario.listaCitas.find(cita => cita.fecha == elemento.id);
-
-    this.router.navigate(['modificar-cita']);
+  removeEvents(){
+    this.eventSource = [];
   }
 
-  formatoHora(fechaCita: Date): string {
-    let formatoFecha = "";
+  async openCallModal(){
+    const modal = await this.modalCtrl.create({
+      component: CalendarPage,
+      cssClass: 'cal-modal',
+      backdropDismiss: false
+    });
 
-    if(fechaCita.getHours()<10){
-      formatoFecha+="0"+fechaCita.getHours()+"/";
-    }else{
-      formatoFecha+=fechaCita.getHours()+"/";
-    }
+    await modal.present();
 
-    if(fechaCita.getMinutes()<10){
-      formatoFecha+="0"+fechaCita.getMinutes();
-    }else{
-      formatoFecha+=fechaCita.getMinutes();
-    }
-    return formatoFecha;
+    modal.onDidDismiss().then((result) => {
+      if(result.data && result.data.event){
+        let event = result.data.event;
+        if(event.allDay){
+          let start = event.startTime;
+          event.startTime = new Date(
+            Date.UTC(
+              start.getUTCFullYear(),
+              start.getUTCMonth(),
+              start.getUTCDate()
+            )
+          );
+          event.endTime = new Date(
+            Date.UTC(
+              start.getUTCFullYear(),
+              start.getUTCMonth(),
+              start.getUTCDate() + 1
+            )
+          );
+        }
+        this.eventSource.push(result.data.event);
+        //Posiblemente quede algo por poner aquí, por que en el video no se veía bien
+        //revisar https://www.youtube.com/watch?v=_hVdPEmbwA0
+      }
+    });
   }
+
 }
-
-
-
-

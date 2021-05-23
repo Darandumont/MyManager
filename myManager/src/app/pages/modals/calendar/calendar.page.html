@@ -1,0 +1,28 @@
+<!-- https://www.youtube.com/watch?v=_hVdPEmbwA0 por 12:55 -->
+
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>{{ viewTitle }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <ion-label position="stacked">Título</ion-label>
+    <ion-input type="text" [(ngModel)]="event.title"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="stacked">Descripción</ion-label>
+    <ion-input type="text" [(ngModel)]="event.desc"></ion-input>
+  </ion-item>
+
+  <calendar
+    *ngIf="modalReady"
+    [calendarMode]="calendar.mode"
+    [currentDate]="calendar.currentDate"
+    (onTitleChanged)="onViewTitleChanged($event)"
+    (onTimeSelected)="onTimeSelected($event)"
+    lockSwipes="true"
+  ></calendar>
+
+</ion-content>
