@@ -2,9 +2,13 @@
   <ion-toolbar color="primary">
     <ion-title>Principal</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="openCallModal()">
+      <ion-button (click)="mostrarCita()">
+        <ion-icon name="receipt-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+      <ion-button (click)="crearCita()">
         <ion-icon name="add" slot="icon-only"></ion-icon>
       </ion-button>
+
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -55,10 +59,7 @@
       </ion-button>
     </ion-col>
   </ion-row>
-  <calendar 
-  [eventSource]="eventSource" 
-  [calendarMode]="calendar.mode" 
-  [currentDate]="calendar.currentDate"
-  (onTitleChanged)="onViewTitleChanged($event)"
-  ></calendar>
+  <calendar (dblclick)="mostrarCita()" [eventSource]="eventSource" [calendarMode]="calendar.mode"
+    [currentDate]="calendar.currentDate" (onTitleChanged)="onViewTitleChanged($event)"
+    (onTimeSelected)="onTimeSelected($event)"></calendar>
 </ion-content>

@@ -23,13 +23,9 @@ export class AccesoFechaPage implements OnInit {
   //TO DO
   ngOnInit() {
     //evt: JQuery.Event valor a pasar por parametro en caso de error
-
     $('#lista_citas').on('click', 'ion-item', (evt: Event) => {
       this.modificarCita(evt);
     });
-
-    //Guardamos el usuario con el que han logueado. Seria usuario logueado por GOOGLE
-    UsuariosService.usuario = new Usuario(UsuariosService.usuarioAutorizacion.email, "");
   }
 
   ionViewWillEnter() {

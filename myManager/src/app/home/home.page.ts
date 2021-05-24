@@ -95,6 +95,7 @@ export class HomePage {
 
   private avanzarSiguientePagina(email, password): void {
     //Si todo correcto vamos a la siguiente página y limpiamos los campos.
+    UsuariosService.usuario = new Usuario(UsuariosService.usuarioAutorizacion.email, "");
     this.router.navigate(['calendario']);
  
     email.value = "";

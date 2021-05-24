@@ -22,8 +22,7 @@ import { Calendar } from '@ionic-native/calendar/ngx';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule],
   providers: [
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    Calendar
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [
     AppComponent

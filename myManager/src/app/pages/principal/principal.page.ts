@@ -1,6 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
+import { Calendar } from '@ionic-native/calendar';
 import { ModalController } from '@ionic/angular';
 import { CalendarComponent } from 'ionic2-calendar';
+import { UsuariosService } from 'src/app/services/usuarios.service';
 import { CalendarPage } from '../modals/calendar/calendar.page';
 
 @Component({
@@ -9,7 +12,6 @@ import { CalendarPage } from '../modals/calendar/calendar.page';
   styleUrls: ['./principal.page.scss'],
 })
 export class PrincipalPage implements OnInit {
-
   eventSource = [];
   viewTitle: string;
 
@@ -18,11 +20,15 @@ export class PrincipalPage implements OnInit {
     currentDate: new Date()
   };
 
+  selectedDate: Date;
+
   @ViewChild(CalendarComponent) myCal: CalendarComponent;
 
-  constructor(private modalCtrl: ModalController) { }
+  constructor(private modalCtrl: ModalController, public router: Router) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+
+  }
 
   next() {
     this.myCal.slideNext();
@@ -32,7 +38,8 @@ export class PrincipalPage implements OnInit {
     this.myCal.slidePrev();
   }
 
-  onViewTitleChanged(title) {
+
+  onViewTitleChanged(title) {    
     this.viewTitle = title;
   }
 
@@ -70,47 +77,69 @@ export class PrincipalPage implements OnInit {
         });
       }
     }
-    this.eventSource = events;
+    this.eventSource = events;    
   }
 
-  removeEvents(){
+  removeEvents() {
     this.eventSource = [];
   }
 
-  async openCallModal(){
-    const modal = await this.modalCtrl.create({
-      component: CalendarPage,
-      cssClass: 'cal-modal',
-      backdropDismiss: false
-    });
+  // METODO PARA ABRIR LA VENTANA MODAL QUE NO LA NECESITAMOS
+  // async openCallModal() {
+  //   const modal = await this.modalCtrl.create({
+  //     component: CalendarPage,
+  //     cssClass: 'cal-modal',
+  //     backdropDismiss: false
+  //   });
 
-    await modal.present();
+  //   await modal.present();
 
-    modal.onDidDismiss().then((result) => {
-      if(result.data && result.data.event){
-        let event = result.data.event;
-        if(event.allDay){
-          let start = event.startTime;
-          event.startTime = new Date(
-            Date.UTC(
-              start.getUTCFullYear(),
-              start.getUTCMonth(),
-              start.getUTCDate()
-            )
-          );
-          event.endTime = new Date(
-            Date.UTC(
-              start.getUTCFullYear(),
-              start.getUTCMonth(),
-              start.getUTCDate() + 1
-            )
-          );
-        }
-        this.eventSource.push(result.data.event);
-        //Posiblemente quede algo por poner aquí, por que en el video no se veía bien
-        //revisar https://www.youtube.com/watch?v=_hVdPEmbwA0
-      }
-    });
+  //   modal.onDidDismiss().then((result) => {
+  //     if (result.data && result.data.event) {
+  //       let event = result.data.event;
+  //       if (event.allDay) {
+  //         let start = event.startTime;
+  //         event.startTime = new Date(
+  //           Date.UTC(
+  //             start.getUTCFullYear(),
+  //             start.getUTCMonth(),
+  //             start.getUTCDate()
+  //           )
+  //         );
+  //         event.endTime = new Date(
+  //           Date.UTC(
+  //             start.getUTCFullYear(),
+  //             start.getUTCMonth(),
+  //             start.getUTCDate() + 1
+  //           )
+  //         )
+
+  //       }
+  //       UsuariosService.fechaCitaActiva = event.startTime.toDateString();
+  //       this.eventSource.push(result.data.event);
+  //       //Posiblemente quede algo por poner aquí, por que en el video no se veía bien
+  //       //revisar https://www.youtube.com/watch?v=_hVdPEmbwA0
+  //     }
+
+  //   });
+  // }
+
+  onTimeSelected(event){
+    let a =event;
+    let fecha = new Date (a.selectedTime);
+    UsuariosService.fechaCitaActiva = fecha.toDateString();    
+    //this.router.navigate(["acceso-fecha"]);
   }
 
+  mostrarCita(){
+    this.router.navigate(["acceso-fecha"]);
+  }
+
+  crearCita() {
+     this.router.navigate(["crear-cita"]);
+  }
+
+
 }
+
+
