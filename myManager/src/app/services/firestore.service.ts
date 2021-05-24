@@ -7,14 +7,13 @@ import { Cita } from '../models/citas.modelo';
 import { Usuario } from '../models/usuarios.modelo';
 import * as firebase from 'firebase';
 import { map } from 'rxjs/operators';
-import { CitaID } from '../models/citasID.modelo';
 import { UsuariosService } from './usuarios.service';
 import { AngularFireList, AngularFireObject } from '@angular/fire/database';
 
 @Injectable({
   providedIn: 'root'
 })
-export class FirestoreService { //HECHO PASO 1: https://medium.com/angular-chile/angular-6-y-firestore-b7f270adcc96
+export class FirestoreService { 
 
   public listaCitasRef: AngularFireList<any>;
   public citaRef: AngularFireObject<any>;
@@ -122,33 +121,10 @@ export class FirestoreService { //HECHO PASO 1: https://medium.com/angular-chile
     })
   }
 
-  public getCitas2() {
+  public getCitas() {
     let currentUser = firebase.default.auth().currentUser;
     let lista = this.firestore.collection('usuarios').doc(currentUser.uid).collection('citas');
     return lista;
-  }
-
-  public getCitas3() {
-    //TODO terminar para que recupere un array de citaid en vez de observables
-    let itemsCollection: AngularFirestoreCollection<Cita>;
-    let items: Observable<CitaID[]>;
-    
-
-    let currentUser = firebase.default.auth().currentUser;
-    itemsCollection = this.firestore.collection('usuarios').doc(currentUser.uid).collection<Cita>('citas');
-    items = itemsCollection.snapshotChanges().pipe(
-      map(actions => actions.map(a => {
-        const data = a.payload.doc.data() as Cita;
-        const id = a.payload.doc.id;
-        return new CitaID(id, data.nombreUsuario, data.nombreCliente, data.presupuesto, data.fecha, data.tamanio);
-      }))
-    );
-
-    UsuariosService.listaCitasID = [];
-    items.forEach(lista => lista.forEach(item =>{
-      UsuariosService.listaCitasID.push(item);
-    }));
-    
   }
 
   //Actualiza una cita

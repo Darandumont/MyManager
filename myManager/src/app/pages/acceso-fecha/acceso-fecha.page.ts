@@ -41,7 +41,7 @@ export class AccesoFechaPage implements OnInit {
     this.fecha = new Date(dia);
     $("#dia").text(this.fecha.toDateString());
 
-    this.firestore.getCitas2().valueChanges().subscribe(listaCitas => {
+    this.firestore.getCitas().valueChanges().subscribe(listaCitas => {
       console.log("Imprimiendo", listaCitas.length);
       this.cargarCitas(listaCitas as Cita[]);
     })

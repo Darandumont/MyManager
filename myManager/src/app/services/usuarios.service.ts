@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Usuario } from '../models/usuarios.modelo';
 import { Cita } from '../models/citas.modelo';
 import { User } from '../compartido/usuario.interface';
-import { CitaID } from '../models/citasID.modelo';
 
 //No creo que la usemos
 @Injectable({
@@ -13,7 +12,7 @@ export class UsuariosService {
   static usuarioAutorizacion: User;
   static fechaCitaActiva: string;
   static usuario: Usuario;
-  static listaCitasID: CitaID[] = [];
+  static listaCitas: Cita[] = [];
 
   //Atributo q engloba la cita entera 
   static cita:Cita;
