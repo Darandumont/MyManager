@@ -59,7 +59,8 @@
       </ion-button>
     </ion-col>
   </ion-row>
-  <calendar (dblclick)="mostrarCita()" [eventSource]="eventSource" [calendarMode]="calendar.mode"
+  <calendar id="calendario"  [eventSource]="eventSource" [calendarMode]="calendar.mode"
     [currentDate]="calendar.currentDate" (onTitleChanged)="onViewTitleChanged($event)"
-    (onTimeSelected)="onTimeSelected($event)"></calendar>
+    (onTimeSelected)="onTimeSelected($event)">
+   </calendar>
 </ion-content>

@@ -3,8 +3,12 @@ import { Router } from '@angular/router';
 import { Calendar } from '@ionic-native/calendar';
 import { ModalController } from '@ionic/angular';
 import { CalendarComponent } from 'ionic2-calendar';
+import { FirestoreService } from 'src/app/services/firestore.service';
 import { UsuariosService } from 'src/app/services/usuarios.service';
 import { CalendarPage } from '../modals/calendar/calendar.page';
+import * as $ from 'jquery';
+import { Cita } from 'src/app/models/citas.modelo';
+
 
 @Component({
   selector: 'app-principal',
@@ -24,10 +28,35 @@ export class PrincipalPage implements OnInit {
 
   @ViewChild(CalendarComponent) myCal: CalendarComponent;
 
-  constructor(private modalCtrl: ModalController, public router: Router) { }
+  constructor(private modalCtrl: ModalController, public router: Router,
+    public firestore: FirestoreService) { }
 
   ngOnInit() {
+    this.removeEvents();
+    this.cargarCita();
 
+  }
+
+  cargarCita(){
+    var events = [];
+    this.firestore.getCitas().valueChanges().subscribe(listaCitas => {
+      for (const cita of listaCitas as Cita[]) {
+        events.push({
+          title: cita.nombreCliente,
+          presupuesto: cita.presupuesto,
+          startTime: new Date(cita.fecha),
+          endTime: this.calcularHoraFinal(cita)
+        });
+      }
+      
+      this.eventSource = events;
+    });
+
+  }
+
+  ionViewWillEnter() {
+    this.removeEvents();
+    this.cargarCita();
   }
 
   next() {
@@ -39,49 +68,64 @@ export class PrincipalPage implements OnInit {
   }
 
 
-  onViewTitleChanged(title) {    
+  onViewTitleChanged(title) {
     this.viewTitle = title;
   }
 
   createRandomEvents() {
     var events = [];
-    for (var i = 0; i < 50; i += 1) {
-      var date = new Date();
-      var eventType = Math.floor(Math.random() * 2);
-      var startDay = Math.floor(Math.random() * 90) - 45;
-      var endDay = Math.floor(Math.random() * 2) + startDay;
-      var startTime;
-      var endTime;
-      if (eventType === 0) {
-        startTime = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + startDay));
-        if (endDay === startDay) {
-          endDay += 1;
-        }
-        endTime = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + endDay));
+    // for (var i = 0; i < 50; i += 1) {
+    //   var date = new Date();
+    //   var eventType = Math.floor(Math.random() * 2);
+    //   var startDay = Math.floor(Math.random() * 90) - 45;
+    //   var endDay = Math.floor(Math.random() * 2) + startDay;
+    //   var startTime;
+    //   var endTime;
+    //   if (eventType === 0) {
+    //     startTime = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + startDay));
+    //     if (endDay === startDay) {
+    //       endDay += 1;
+    //     }
+    //     endTime = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + endDay));
+    //     events.push({
+    //       title: 'All Day - ' + i,
+    //       startTime: startTime,
+    //       endTime: endTime,
+    //       allDay: true
+    //     });
+    //   } else {
+    //     var startMinute = Math.floor(Math.random() * 24 * 60);
+    //     var endMinute = Math.floor(Math.random() * 180) + startMinute;
+    //     startTime = new Date(date.getFullYear(), date.getMonth(), date.getDate() + startDay, 0, date.getMinutes() + startMinute);
+    //     endTime = new Date(date.getFullYear(), date.getMonth(), date.getDate() + endDay, 0, date.getMinutes() + endMinute);
+    //     events.push({
+    //       title: 'Event - ' + i,
+    //       startTime: startTime,
+    //       endTime: endTime,
+    //       allDay: false
+    //     });
+    //   }
+    // }
+
+    this.firestore.getCitas().valueChanges().subscribe(listaCitas => {
+      for (const cita of listaCitas as Cita[]) {
+        let endTime = new Date(cita.fecha+1);
         events.push({
-          title: 'All Day - ' + i,
-          startTime: startTime,
-          endTime: endTime,
-          allDay: true
-        });
-      } else {
-        var startMinute = Math.floor(Math.random() * 24 * 60);
-        var endMinute = Math.floor(Math.random() * 180) + startMinute;
-        startTime = new Date(date.getFullYear(), date.getMonth(), date.getDate() + startDay, 0, date.getMinutes() + startMinute);
-        endTime = new Date(date.getFullYear(), date.getMonth(), date.getDate() + endDay, 0, date.getMinutes() + endMinute);
-        events.push({
-          title: 'Event - ' + i,
-          startTime: startTime,
-          endTime: endTime,
-          allDay: false
+          title: cita.nombreCliente,
+          presupuesto: cita.presupuesto,
+          startTime: new Date(cita.fecha),
+          endTime: this.calcularHoraFinal(cita)
         });
       }
-    }
-    this.eventSource = events;    
+      
+      this.eventSource = events;
+    });
   }
 
   removeEvents() {
     this.eventSource = [];
+    console.log("lista vacia");
+    
   }
 
   // METODO PARA ABRIR LA VENTANA MODAL QUE NO LA NECESITAMOS
@@ -124,22 +168,34 @@ export class PrincipalPage implements OnInit {
   //   });
   // }
 
-  onTimeSelected(event){
-    let a =event;
-    let fecha = new Date (a.selectedTime);
-    UsuariosService.fechaCitaActiva = fecha.toDateString();    
+  onTimeSelected(event) {
+    let a = event;
+    let fecha = new Date(a.selectedTime);
+    UsuariosService.fechaCitaActiva = fecha.toDateString();
     //this.router.navigate(["acceso-fecha"]);
   }
 
-  mostrarCita(){
+  mostrarCita() {
+    this.eventSource = [];
     this.router.navigate(["acceso-fecha"]);
   }
 
   crearCita() {
-     this.router.navigate(["crear-cita"]);
+    this.eventSource = [];
+    this.router.navigate(["crear-cita"]);
   }
 
-
+  calcularHoraFinal(cita:Cita):Date{
+    let fechaFinal: Date;
+    if(cita.tamanio==="Pequeño"){
+      fechaFinal = new Date(cita.fecha);
+      fechaFinal.setHours(fechaFinal.getHours()+1);
+    }else{
+      fechaFinal = new Date(cita.fecha);
+      fechaFinal.setHours(fechaFinal.getHours()+4);
+    }
+    return fechaFinal;
+  }
 }
 
 
