@@ -32,13 +32,13 @@ export class PrincipalPage implements OnInit {
     public firestore: FirestoreService) { }
 
   ngOnInit() {
-    this.removeEvents();
-    this.cargarCita();
+    //this.removeEvents();
+    //this.cargarCita();
 
   }
 
   cargarCita(){
-    var events = [];
+    let events = [];
     this.firestore.getCitas().valueChanges().subscribe(listaCitas => {
       for (const cita of listaCitas as Cita[]) {
         events.push({
@@ -55,6 +55,7 @@ export class PrincipalPage implements OnInit {
   }
 
   ionViewWillEnter() {
+    console.log("Principal - ionViewWillEnter");
     this.removeEvents();
     this.cargarCita();
   }
@@ -73,7 +74,7 @@ export class PrincipalPage implements OnInit {
   }
 
   createRandomEvents() {
-    var events = [];
+    let events = [];
     // for (var i = 0; i < 50; i += 1) {
     //   var date = new Date();
     //   var eventType = Math.floor(Math.random() * 2);
