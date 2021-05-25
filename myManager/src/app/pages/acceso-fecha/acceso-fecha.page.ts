@@ -29,6 +29,7 @@ export class AccesoFechaPage implements OnInit {
   }
 
   ionViewWillEnter() {
+
     this.recargarPagina();
   }
 
@@ -48,6 +49,8 @@ export class AccesoFechaPage implements OnInit {
   }
 
   cargarCitas(listaCitas: Cita[]) {
+    UsuariosService.usuario.listaCitas = [];
+
     let dia = UsuariosService.fechaCitaActiva;
     this.fecha = new Date(dia);
     let fechaFinalHoy = this.fecha.getFullYear() + " " + (this.fecha.getMonth() + 1) + " " + this.fecha.getDate();
