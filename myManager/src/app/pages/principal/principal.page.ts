@@ -5,7 +5,6 @@ import { ModalController } from '@ionic/angular';
 import { CalendarComponent } from 'ionic2-calendar';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { UsuariosService } from 'src/app/services/usuarios.service';
-import { CalendarPage } from '../modals/calendar/calendar.page';
 import * as $ from 'jquery';
 import { Cita } from 'src/app/models/citas.modelo';
 

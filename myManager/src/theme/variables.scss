@@ -1,12 +1,40 @@
 // Ionic Variables and Theming. For more info, please see:
 // http://ionicframework.com/docs/theming/
 
-ion-content.background{
-  --background: url(../assets/images/fondo_login.jpg) 0 0/100% 100% no-repeat;
+ion-content.background_home{
+  --background: url(../assets/images/fondo_home.jpg) 0 0/100% 100% no-repeat;
 }
 
-ion-item.cita{
-  
+ion-content.background_principal{
+  --background: url(../assets/images/fondo_home.jpg) 0 0/100% 100% no-repeat;
+}
+
+ion-content.background_acceso_fecha{
+  --background: url(../assets/images/fondo_acceso_fecha.jpeg) 0 0/100% 100% no-repeat;
+}
+
+ion-content.background_crear_cita{
+  --background: url(../assets/images/fondo_crear_cita.jpeg) 0 0/100% 100% no-repeat;
+}
+
+ion-content.background_modificar_cita{
+  --background: url(../assets/images/fondo_modificar_cita.jpeg) 0 0/100% 100% no-repeat;
+}
+
+ion-content.background_confirmar_borrar{
+  --background: url(../assets/images/fondo_confirmar_borrar.jpeg) 0 0/100% 100% no-repeat;
+}
+
+ion-content.background_fondo_reseteo_clave{
+  --background: url(../assets/images/fondo_reseteo_clave.jpeg) 0 0/100% 100% no-repeat;
+}
+
+ion-content.background_fondo_calcular_mes{
+  --background: url(../assets/images/fondo_calcular_mes.jpeg) 0 0/100% 100% no-repeat;
+}
+
+ion-content.background_fondo_registrar_usuario{
+  --background: url(../assets/images/fondo_registrar_usuario.jpeg) 0 0/100% 100% no-repeat;
 }
 
 /** Ionic CSS Variables **/

@@ -16,10 +16,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/registrar-usuario/registrar-usuario.module').then( m => m.RegistrarUsuarioPageModule)
   },
   {
-    path: 'administracion',
-    loadChildren: () => import('./pages/administracion/administracion.module').then( m => m.AdministracionPageModule)
-  },
-  {
     path: 'crear-cita',
     loadChildren: () => import('./pages/crear-cita/crear-cita.module').then( m => m.CrearCitaPageModule)
   },
@@ -30,10 +26,6 @@ const routes: Routes = [
   {
     path: 'reseteo-clave',
     loadChildren: () => import('./pages/modals/reseteo-clave/reseteo-clave.module').then( m => m.ReseteoClavePageModule)
-  },
-  {
-    path: 'calendario',
-    loadChildren: () => import('./pages/calendario/calendario.module').then( m => m.CalendarioPageModule)
   },
   {
     path: 'confirmar-borrar',

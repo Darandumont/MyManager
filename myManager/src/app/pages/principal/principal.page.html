@@ -15,8 +15,9 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="background_principal">
 
+  <div style="background-color: white;">
   <ion-segment [(ngModel)]="calendar.mode">
     <ion-segment-button value="month">
       <ion-label>Mes</ion-label>
@@ -61,4 +62,5 @@
   (onTitleChanged)="onViewTitleChanged($event)"
   (onTimeSelected)="onTimeSelected($event)">
   </calendar>
+</div>
 </ion-content>
