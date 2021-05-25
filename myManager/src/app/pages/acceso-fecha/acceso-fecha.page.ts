@@ -38,7 +38,6 @@ export class AccesoFechaPage implements OnInit {
     $("#dia").text(this.fecha.toDateString());
 
     this.firestore.getCitas().valueChanges().subscribe(listaCitas => {
-      console.log("Imprimiendo", listaCitas.length);
       this.cargarCitas(listaCitas as Cita[]);
     })
   }
@@ -88,13 +87,14 @@ export class AccesoFechaPage implements OnInit {
     this.router.navigate(['modificar-cita']);
   }
 
+  //METODO A METER EN UTILS
   formatoHora(fechaCita: Date): string {
     let formatoFecha = "";
 
     if(fechaCita.getHours()<10){
-      formatoFecha+="0"+fechaCita.getHours()+"/";
+      formatoFecha+="0"+fechaCita.getHours()+":";
     }else{
-      formatoFecha+=fechaCita.getHours()+"/";
+      formatoFecha+=fechaCita.getHours()+":";
     }
 
     if(fechaCita.getMinutes()<10){

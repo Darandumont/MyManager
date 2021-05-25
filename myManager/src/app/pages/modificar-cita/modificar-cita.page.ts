@@ -27,21 +27,19 @@ export class ModificarCitaPage implements OnInit {
 
   ngOnInit() {
     this.cargarDatos();
-
+    this.tamaño = UsuariosService.cita.tamanio;
+    this.cambiarValor();
+    this.cambiarDuracion();
   }
 
   cargarDatos() {
-    console.log(UsuariosService.cita.fecha);
     let fechaRecibida = new Date(UsuariosService.cita.fecha);
-    console.log(fechaRecibida);
-
 
     this.nombre = (document.getElementById("nombreCita") as HTMLInputElement);
     this.precio = (document.getElementById("precioCita") as HTMLInputElement);
     this.tamaño = (UsuariosService.cita.tamanio);
     this.hora = (document.getElementById("horaCita") as HTMLInputElement);
     this.fecha = (document.getElementById("diaCita") as HTMLLabelElement);
-
 
     this.opciones = (document.getElementById("tamañoTatto") as HTMLSelectElement);
     this.opciones.options[0].disabled = true;
@@ -50,6 +48,8 @@ export class ModificarCitaPage implements OnInit {
     let fechaCreada = new Date(dia);
     let formatoFecha = fechaCreada.getDate() + "/" + (fechaCreada.getMonth() + 1) + "/" + fechaCreada.getFullYear();
     this.fecha.innerHTML = formatoFecha;
+
+    this.hora.value = this.formatoHora(fechaRecibida);
 
 
     this.cambiarValor();
@@ -94,13 +94,11 @@ export class ModificarCitaPage implements OnInit {
 
   borrar() {
       this.componenteIonicService.presentModalBorrar();
-      this.router.navigate(["principal"]);
     }
 
   modificar() {
     
     if (this.validarDatos()) {
-      console.log(this.hora.value);
       let dia = UsuariosService.fechaCitaActiva;
       let fecha = new Date(dia);
       let horaFinal = this.hora.value.split(":")
@@ -109,8 +107,6 @@ export class ModificarCitaPage implements OnInit {
       this.firestore.modificarCita(UsuariosService.cita, nuevaCita);
       
       this.mostrarToast("Cita modificada",true);
-      this.router.navigate(["principal"])
-
     } else {
       this.mostrarToast("Rellene todos los campos",false);
     }
@@ -123,4 +119,20 @@ export class ModificarCitaPage implements OnInit {
   }
 
 
+  formatoHora(fechaCita: Date): string {
+    let formatoFecha = "";
+
+    if(fechaCita.getHours()<10){
+      formatoFecha+="0"+fechaCita.getHours()+":";
+    }else{
+      formatoFecha+=fechaCita.getHours()+":";
+    }
+
+    if(fechaCita.getMinutes()<10){
+      formatoFecha+="0"+fechaCita.getMinutes();
+    }else{
+      formatoFecha+=fechaCita.getMinutes();
+    }
+    return formatoFecha;
+  }
 }

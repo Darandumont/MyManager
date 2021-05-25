@@ -46,6 +46,10 @@ const routes: Routes = [
   {
     path: 'principal',
     loadChildren: () => import('./pages/principal/principal.module').then( m => m.PrincipalPageModule)
+  },
+  {
+    path: 'calcular-mes',
+    loadChildren: () => import('./pages/calcular-mes/calcular-mes.module').then( m => m.CalcularMesPageModule)
   }
 
 ];

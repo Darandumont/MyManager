@@ -73,7 +73,6 @@ export class HomePage {
       }
 
     } catch (error) {
-      console.log("Error:", error);
       if(!toastRelleno){
         datosToast = [this.mensajeError, false];
       }
@@ -89,7 +88,6 @@ export class HomePage {
         datosToast = ["Debe verificar el email", false];
       }      
     }
-    console.log(UsuariosService.usuarioAutorizacion)
     this.mostrarToast(datosToast[0], datosToast[1]);
   }
 

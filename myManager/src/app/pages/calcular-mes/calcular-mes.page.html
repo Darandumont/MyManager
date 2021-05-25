@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title style="text-align: center;">Calcular Mes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <br>
+  <br>
+  <h4 style="text-align: center;">Introduce el nombre del cliente</h4>
+  <br>
+  <br>
+  <ion-row>
+    <ion-item class="toma_datos" style="margin-left: 10px;">
+      <ion-label position="floating">Nombre</ion-label>
+      <ion-input  id ="textoCita" type='text' clear-input></ion-input>
+    </ion-item>
+    <ion-button color="" expand="block" style="margin-left: 100px;" (click)="calcularMes()">
+      <ion-label>Buscar</ion-label>
+      <ion-icon id="botonBuscar"></ion-icon>
+    </ion-button>
+  </ion-row>
+  <br>
+  <ion-list id="lista_citas">
+  </ion-list>
+  <br>
+  <br>
+</ion-content>

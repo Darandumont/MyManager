@@ -60,10 +60,7 @@ export class CrearCitaPage implements OnInit {
     let precio: JQuery<HTMLElement> = $("#precioCita");
     var valido: boolean = true;
     this.hora = (document.getElementById("horaCita") as HTMLInputElement);
-    let horaFinal:string[] = this.hora.value.split(":");
-
-    console.log("Correo: ",UsuariosService.usuario.emailUsuario.toString());
-    
+    let horaFinal:string[] = this.hora.value.split(":");    
 
     if (nombre.val() != "" && precio.val() != "" && this.hora.value != "" && this.opciones.value != 0) {
       this.mostrarToast(this.mensajeCorrecto, valido);

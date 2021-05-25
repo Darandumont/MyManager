@@ -1,14 +1,16 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-title>Principal</ion-title>
+    <ion-title>Tu Calendario</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="mostrarCita()">
-        <ion-icon name="receipt-outline" slot="icon-only"></ion-icon>
+      <ion-button (click)="buscarCita()">
+        <ion-icon name="search-outline" slot ="icon-only"></ion-icon> 
+      </ion-button>
+      <ion-button (click)="calcularMes()">
+        <ion-icon name="card-outline" slot ="icon-only"></ion-icon>
       </ion-button>
       <ion-button (click)="crearCita()">
         <ion-icon name="add" slot="icon-only"></ion-icon>
       </ion-button>
-
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -26,18 +28,10 @@
       <ion-label>Día</ion-label>
     </ion-segment-button>
   </ion-segment>
-
+  <br>
   <ion-row>
-    <ion-col size="6">
-      <ion-button (click)="createRandomEvents()" expands="block" fill="outline">
-        Añadir eventos
-      </ion-button>
-    </ion-col>
-    <ion-col size="6">
-      <ion-button (click)="removeEvents()" expands="block" fill="outline">
-        Eliminar eventos
-      </ion-button>
-    </ion-col>
+    <ion-label id="mesCalculado" style="margin-left: 38%;">
+    </ion-label>
   </ion-row>
 
   <ion-row>
@@ -49,7 +43,7 @@
     </ion-col>
 
     <ion-col size="8" class="ion-text-center">
-      <h2>{{ viewTitle }}</h2>
+      <h2 id="mes">{{ viewTitle }}</h2>
     </ion-col>
 
     <!-- Move forward one screen of the slides -->
@@ -59,8 +53,12 @@
       </ion-button>
     </ion-col>
   </ion-row>
-  <calendar id="calendario"  [eventSource]="eventSource" [calendarMode]="calendar.mode"
-    [currentDate]="calendar.currentDate" (onTitleChanged)="onViewTitleChanged($event)"
-    (onTimeSelected)="onTimeSelected($event)">
-   </calendar>
+  <calendar id="calendario"
+  (onEventSelected)="onEventSelected($event)" 
+  [eventSource]="eventSource"
+  [calendarMode]="calendar.mode" 
+  [currentDate]="calendar.currentDate" 
+  (onTitleChanged)="onViewTitleChanged($event)"
+  (onTimeSelected)="onTimeSelected($event)">
+  </calendar>
 </ion-content>

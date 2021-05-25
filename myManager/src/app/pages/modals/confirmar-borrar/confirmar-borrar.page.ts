@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { ComponentesIonicService } from 'src/app/services/componentes-ionic.service';
 import { FirestoreService } from 'src/app/services/firestore.service';
@@ -13,6 +14,7 @@ export class ConfirmarBorrarPage implements OnInit {
 
   constructor(public componenteIonicService: ComponentesIonicService,
     public modalController: ModalController,
+    public router: Router,
     public firestore: FirestoreService) { }
 
   ngOnInit() {
@@ -27,7 +29,7 @@ export class ConfirmarBorrarPage implements OnInit {
       this.mostrarToast("Error al brorar la cita", false);
     }
     this.modalController.dismiss();
-
+    this.router.navigate(["principal"])
 
   }
 
