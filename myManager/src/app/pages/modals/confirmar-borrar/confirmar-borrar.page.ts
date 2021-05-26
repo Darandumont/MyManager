@@ -29,7 +29,7 @@ export class ConfirmarBorrarPage implements OnInit {
       this.mostrarToast("Error al brorar la cita", false);
     }
     this.modalController.dismiss();
-    this.router.navigate(["principal"])
+    this.router.navigate(["acceso-fecha"])
 
   }
 

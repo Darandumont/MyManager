@@ -107,6 +107,7 @@ export class ModificarCitaPage implements OnInit {
       this.firestore.modificarCita(UsuariosService.cita, nuevaCita);
       
       this.mostrarToast("Cita modificada",true);
+      this.router.navigate(["calcular-mes"]);
     } else {
       this.mostrarToast("Rellene todos los campos",false);
     }
