@@ -7,11 +7,11 @@ import * as $ from 'jquery';
 import { UsuariosService } from 'src/app/services/usuarios.service';
 
 @Component({
-  selector: 'app-calcular-mes',
-  templateUrl: './calcular-mes.page.html',
-  styleUrls: ['./calcular-mes.page.scss'],
+  selector: 'app-buscar-cita',
+  templateUrl: './buscar-cita.page.html',
+  styleUrls: ['./buscar-cita.page.scss'],
 })
-export class CalcularMesPage implements OnInit {
+export class BuscarCitaPage implements OnInit {
 
   constructor(public componenteIonicService: ComponentesIonicService,
     public router: Router,
@@ -71,6 +71,5 @@ export class CalcularMesPage implements OnInit {
     }
     return formatoFecha;
   }
-
 
 }

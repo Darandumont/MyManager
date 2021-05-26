@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { CalcularMesPageRoutingModule } from './calcular-mes-routing.module';
+import { BuscarCitaPageRoutingModule } from './buscar-cita-routing.module';
 
-import { CalcularMesPage } from './calcular-mes.page';
+import { BuscarCitaPage } from './buscar-cita.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    CalcularMesPageRoutingModule
+    BuscarCitaPageRoutingModule
   ],
-  declarations: [CalcularMesPage]
+  declarations: [BuscarCitaPage]
 })
-export class CalcularMesPageModule {}
+export class BuscarCitaPageModule {}

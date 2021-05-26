@@ -170,7 +170,7 @@ export class PrincipalPage implements OnInit {
 
   buscarCita(){
     this.removeEvents();
-    this.router.navigate(["calcular-mes"]);
+    this.router.navigate(["buscar-cita"]);
   }
 
   calcularHoraFinal(cita: Cita): Date {

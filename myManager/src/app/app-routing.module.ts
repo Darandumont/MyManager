@@ -40,9 +40,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/principal/principal.module').then( m => m.PrincipalPageModule)
   },
   {
-    path: 'calcular-mes',
-    loadChildren: () => import('./pages/calcular-mes/calcular-mes.module').then( m => m.CalcularMesPageModule)
+    path: 'buscar-cita',
+    loadChildren: () => import('./pages/buscar-cita/buscar-cita.module').then( m => m.BuscarCitaPageModule)
   }
+
 
 ];
 

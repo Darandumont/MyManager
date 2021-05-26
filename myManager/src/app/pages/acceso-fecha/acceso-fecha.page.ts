@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as $ from 'jquery';
 import { Cita } from 'src/app/models/citas.modelo';
-import { Usuario } from 'src/app/models/usuarios.modelo';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { UsuariosService } from 'src/app/services/usuarios.service';
 
@@ -15,6 +14,7 @@ export class AccesoFechaPage implements OnInit {
 
   listaCitas: Cita[];
   fecha: Date;
+  dia: string;
 
   constructor(
     public router: Router,
@@ -36,8 +36,9 @@ export class AccesoFechaPage implements OnInit {
   recargarPagina() {
     let dia = UsuariosService.fechaCitaActiva;
     this.fecha = new Date(dia);
-    $("#dia").text(this.fecha.toDateString());
 
+    this.dia = this.fecha.getDate() + "/" + (this.fecha.getMonth() + 1) + "/" + this.fecha.getFullYear();
+    
     this.firestore.getCitas().valueChanges().subscribe(listaCitas => {
       this.cargarCitas(listaCitas as Cita[]);
     })
