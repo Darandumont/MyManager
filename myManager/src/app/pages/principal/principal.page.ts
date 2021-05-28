@@ -40,7 +40,7 @@ export class PrincipalPage implements OnInit {
     this.firestore.getCitas().valueChanges().subscribe(listaCitas => {
       for (const cita of listaCitas as Cita[]) {
         events.push({
-          title: " Nombre: " + cita.nombreCliente + ", Presupuesto: " + cita.presupuesto + "€",
+          title: cita.nombreCliente + ", " + cita.presupuesto + "€",
           startTime: new Date(cita.fecha),
           endTime: this.calcularHoraFinal(cita)
         });
@@ -155,7 +155,6 @@ export class PrincipalPage implements OnInit {
     let a = event;
     let fecha = new Date(a.selectedTime);
     UsuariosService.fechaCitaActiva = fecha.toDateString();
-    //this.router.navigate(["acceso-fecha"]);
   }
 
   mostrarCita() {

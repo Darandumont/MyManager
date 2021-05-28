@@ -17,55 +17,57 @@
   <br>
   <div id="container">
     <form>
-        <ion-row>
-          <ion-col size="1">
-          </ion-col>
-          <ion-col size="10">
-            <ion-item class="toma_datos">
-              <ion-label position="floating">Email</ion-label>
-              <ion-input required #email type='text' clear-input></ion-input>
-            </ion-item>
-          </ion-col>
-          <ion-col size="1">
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col size="1">
-          </ion-col>
-          <ion-col size="10">
-            <ion-item class="toma_datos">
-              <ion-label position="floating">Contraseña</ion-label>
-              <ion-input required #password type='password' clear-input></ion-input>
-            </ion-item>
-          </ion-col>
-          <ion-col size="1">
-          </ion-col>
-        </ion-row>
-        <br class="divider line one-line">
-        <ion-row>
-          <ion-col size="1">
-          </ion-col>
-          <ion-col size="10">
-            <ion-button type='submit' (click)="entrar(true, email, password)" expand="block">Entrar</ion-button>
-          </ion-col>
-          <ion-col size="1">
-          </ion-col>
-        </ion-row>
-      <span class="divider line one-line"> o </span>
       <ion-row>
         <ion-col size="1">
         </ion-col>
         <ion-col size="10">
-          <ion-button type='submit' color="danger" (click)="entrar(false, email, password)" expand="block">
-            <ion-label>Entrar con Google</ion-label>
-            <ion-icon id="iconoGoogle" name="logo-google"></ion-icon>
-          </ion-button>
+          <ion-item class="toma_datos">
+            <ion-label position="floating">Email</ion-label>
+            <ion-input required #email type='text' clear-input></ion-input>
+          </ion-item>
         </ion-col>
         <ion-col size="1">
         </ion-col>
       </ion-row>
       <ion-row>
-        <ion-label id ="crearUsuario" (click)=crearUsuario() style ="color: white; margin: auto;" >¿Eres nuevo?</ion-label>
+        <ion-col size="1">
+        </ion-col>
+        <ion-col size="10">
+          <ion-item class="toma_datos">
+            <ion-label position="floating">Contraseña</ion-label>
+            <ion-input required #password type='password' clear-input></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size="1">
+        </ion-col>
+      </ion-row>
+      <br class="divider line one-line">
+      <ion-row>
+        <ion-col size="1">
+        </ion-col>
+        <ion-col size="10">
+          <ion-button type='submit' (click)="entrar(true, email, password)" expand="block">Entrar</ion-button>
+        </ion-col>
+        <ion-col size="1">
+        </ion-col>
+      </ion-row>
+      <div id="entrarConGoogle">
+        <span class="divider line one-line"> o </span>
+        <ion-row>
+          <ion-col size="1">
+          </ion-col>
+          <ion-col size="10">
+            <ion-button type='submit' color="danger" (click)="entrar(false, email, password)" expand="block">
+              <ion-label>Entrar con Google</ion-label>
+              <ion-icon id="iconoGoogle" name="logo-google"></ion-icon>
+            </ion-button>
+          </ion-col>
+          <ion-col size="1">
+          </ion-col>
+        </ion-row>
+      </div>
+      <ion-row>
+        <ion-label id="crearUsuario" (click)=crearUsuario() style="color: white; margin: auto;">¿Eres nuevo?</ion-label>
       </ion-row>
     </form>
   </div>

@@ -5,6 +5,7 @@ import { User } from '../compartido/usuario.interface';
 import { Usuario } from '../models/usuarios.modelo';
 import { AutorizacionService } from '../services/autorizacion.service';
 import { UsuariosService } from '../services/usuarios.service';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-home',
@@ -29,9 +30,23 @@ export class HomePage {
   ) { }
 
   ngOnInit() {
+    let navegador = navigator.userAgent; //busco el "userAgent" del usuario.
+    //lista de palabras del "userAgent" en los móviles
+    let moviles = ["Mobile", "iPhone", "iPod", "BlackBerry", "Opera Mini", "Sony", "MOT", "Nokia", "samsung"];
+    let detector = 0; //Variable que detectará si se usa un móvil
+    for (let i in moviles) { //comprobar en la lista ...
+      //si el método "indexOf" no devuelve -1, indica que la palabra está en el "userAgent"
+      let compruebo = navegador.indexOf(moviles[i]);
+      if (compruebo > -1) {
+        detector = 1; //Si es un móvil, cambio el valor del detector
+      }
+    }
+    if (detector == 1) { //si es un móvil dehabilito el entrar con google.
+      $('#entrarConGoogle').hide();
+    }
   }
 
-  ionViewWillEnter(){
+  ionViewWillEnter() {
     this.autoSvc.cerrarSesion();
     UsuariosService.usuarioAutorizacion = undefined;
     this.contadorErrores = 0;
@@ -39,27 +54,29 @@ export class HomePage {
 
   async entrar(entrar: boolean, email, password) {
 
+    let emailSinEspacios = email.value.trim();
+
     let datosToast: [string, boolean] = [this.mensajeCorrecto, true];
-    
+
     let user: User;
     let camposValidos: boolean = false;
     let toastRelleno = false;
 
     try {
       if (entrar) {
-        camposValidos = this.validarCamposRellenos(email.value, password.value);
+        camposValidos = this.validarCamposRellenos(emailSinEspacios, password.value);
         if (camposValidos) {
-          user = await this.autoSvc.iniciarSesion(email.value, password.value);
-          if(user == null){
+          user = await this.autoSvc.iniciarSesion(emailSinEspacios, password.value);
+          if (user == null) {
             ++this.contadorErrores;
             datosToast = [`No tiene contraseña almacenada o esta es incorrecta. Número intentos: ${this.contadorErrores}`, false];
             toastRelleno = true;
-            if(this.contadorErrores === 3){
-              this.componenteIonicService.presentModal(email.value);
+            if (this.contadorErrores === 3) {
+              this.componenteIonicService.presentModal(emailSinEspacios);
               this.contadorErrores = 0;
             }
           }
-        }else{
+        } else {
           datosToast = ["Debe rellenar los campos", false];
           toastRelleno = true;
         }
@@ -67,26 +84,26 @@ export class HomePage {
         user = await this.autoSvc.iniciarSesionGoolge();
       }
 
-      if(!toastRelleno && !user){
+      if (!toastRelleno && !user) {
         datosToast = [this.mensajeError, false];
         toastRelleno = true;
       }
 
     } catch (error) {
-      if(!toastRelleno){
+      if (!toastRelleno) {
         datosToast = [this.mensajeError, false];
       }
     }
 
     if (user) {
 
-      if(user.emailVerified){
+      if (user.emailVerified) {
         UsuariosService.usuarioAutorizacion = user;
-        
+
         this.avanzarSiguientePagina(email, password);
-      }else if(!toastRelleno){
+      } else if (!toastRelleno) {
         datosToast = ["Debe verificar el email", false];
-      }      
+      }
     }
     this.mostrarToast(datosToast[0], datosToast[1]);
   }
@@ -95,12 +112,12 @@ export class HomePage {
     //Si todo correcto vamos a la siguiente página y limpiamos los campos.
     UsuariosService.usuario = new Usuario(UsuariosService.usuarioAutorizacion.email, "");
     this.router.navigate(['principal']);
- 
+
     email.value = "";
     password.value = "";
   }
 
-  crearUsuario(){
+  crearUsuario() {
     this.router.navigate(['registrar-usuario']);
   }
 
@@ -109,6 +126,6 @@ export class HomePage {
   }
 
   private validarCamposRellenos(email: string, password: string): boolean {
-    return email != null && email.length > 0 && password != null && password .length > 0;
+    return email != null && email.trim().length > 0 && password != null && password.trim().length > 0;
   }
 }

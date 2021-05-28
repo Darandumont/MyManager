@@ -69,7 +69,7 @@ export class AccesoFechaPage implements OnInit {
       let formatoFecha = fechaCita.getDate() + "/" + (fechaCita.getMonth() + 1) + "/" + fechaCita.getFullYear()
       if (fechaFinalHoy === fechaFinalCita) {
         let elemento = $('<ion-item/>', {
-          'html': `Nombre: ${cita.nombreCliente},  Precio: ${cita.presupuesto}€,  Hora/Fecha: ${horaFinal}  ${formatoFecha} `,
+          'html': `${cita.nombreCliente}, ${cita.presupuesto}€, ${horaFinal} | ${formatoFecha} `,
           'id': cita.fecha,
           'class': 'cita' //Para dar estilos a la cita ir a theme/variables.scss
         }
